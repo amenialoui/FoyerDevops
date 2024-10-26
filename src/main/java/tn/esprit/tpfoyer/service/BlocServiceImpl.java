@@ -15,8 +15,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 @Slf4j  // Simple Loggining Façade For Java
-public class BlocServiceImpl  implements IBlocService {
-
+public class BlocServiceImpl implements IBlocService {
 
     BlocRepository blocRepository;
 
@@ -77,5 +76,6 @@ public class BlocServiceImpl  implements IBlocService {
     public List<Bloc> trouverBlocsParNomEtCap(String nb, long c) {
         return blocRepository.findAllByNomBlocAndCapaciteBloc(nb,  c);
     }
+
 
 }

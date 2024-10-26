@@ -18,6 +18,9 @@ public interface IBlocService {
 
     public List<Bloc> trouverBlocsParNomEtCap(String nb, long c);
 
+    // Méthode avancée : Détection des blocs sous-utilisés
+
+
 
 
     }
