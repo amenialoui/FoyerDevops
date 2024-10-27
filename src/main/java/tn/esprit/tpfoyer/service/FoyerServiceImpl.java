@@ -2,6 +2,7 @@ package tn.esprit.tpfoyer.service;
 
 
 import lombok.AllArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import tn.esprit.tpfoyer.entity.Foyer;
 import tn.esprit.tpfoyer.repository.FoyerRepository;
@@ -16,8 +17,10 @@ public class FoyerServiceImpl implements IFoyerService {
     public List<Foyer> retrieveAllFoyers() {
         return foyerRepository.findAll();
     }
+    @Override
     public Foyer retrieveFoyer(Long foyerId) {
-        return foyerRepository.findById(foyerId).get();
+        return foyerRepository.findById(foyerId)
+                .orElseThrow(() -> new IllegalArgumentException("Foyer not found with ID: " + foyerId));
     }
     public Foyer addFoyer(Foyer f) {
         return foyerRepository.save(f);
