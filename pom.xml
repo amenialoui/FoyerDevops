@@ -56,6 +56,7 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
 <!--        <dependency>-->
 <!--            <groupId>org.junit.jupiter</groupId>-->
 <!--            <artifactId>junit-jupiter-engine</artifactId>-->
@@ -89,6 +90,19 @@
                     </excludes>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.7</version> <!-- Vérifiez la version la plus récente -->
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 
