@@ -13,5 +13,6 @@ public interface IEtudiantService {
     public Etudiant modifyEtudiant(Etudiant etudiant);
     public Etudiant recupererEtudiantParCin(long cin);
 
+    List<Etudiant> getEtudiantsAvecReservationValidePourAnneeDonnee(int annee);
 
 }
