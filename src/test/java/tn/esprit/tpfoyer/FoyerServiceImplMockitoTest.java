@@ -8,7 +8,9 @@ import org.mockito.MockitoAnnotations;
 import tn.esprit.tpfoyer.entity.Foyer;
 import tn.esprit.tpfoyer.repository.FoyerRepository;
 import tn.esprit.tpfoyer.service.FoyerServiceImpl;
+
 import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -27,17 +29,17 @@ class FoyerServiceImplMockitoTest {
 
     @Test
     void testAddFoyer() {
-        // Données de test
+        // Test data
         Foyer foyer = new Foyer();
         foyer.setNomFoyer("Mocked Foyer");
 
-        // Configuration de la méthode simulée
+        // Mocking the repository method
         when(foyerRepository.save(foyer)).thenReturn(foyer);
 
-        // Exécution du test
+        // Executing the service method
         Foyer result = foyerService.addFoyer(foyer);
 
-        // Vérifications
+        // Assertions
         assertNotNull(result);
         assertEquals("Mocked Foyer", result.getNomFoyer());
         verify(foyerRepository, times(1)).save(foyer);
@@ -45,19 +47,19 @@ class FoyerServiceImplMockitoTest {
 
     @Test
     void testRetrieveFoyer() {
-        // Données de test
+        // Test data
         Long foyerId = 1L;
         Foyer foyer = new Foyer();
         foyer.setIdFoyer(foyerId);
         foyer.setNomFoyer("Mocked Retrieve Foyer");
 
-        // Configuration de la méthode simulée
+        // Mocking the repository method
         when(foyerRepository.findById(foyerId)).thenReturn(Optional.of(foyer));
 
-        // Exécution du test
+        // Executing the service method
         Foyer result = foyerService.retrieveFoyer(foyerId);
 
-        // Vérifications
+        // Assertions
         assertNotNull(result);
         assertEquals(foyerId, result.getIdFoyer());
         assertEquals("Mocked Retrieve Foyer", result.getNomFoyer());
@@ -65,14 +67,51 @@ class FoyerServiceImplMockitoTest {
     }
 
     @Test
+    void testRetrieveFoyerNotFound() {
+        // Test data
+        Long foyerId = 999L;
+
+        // Mocking the repository method to return an empty Optional
+        when(foyerRepository.findById(foyerId)).thenReturn(Optional.empty());
+
+        // Executing the service method and asserting the exception
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            foyerService.retrieveFoyer(foyerId);
+        });
+
+        assertEquals("Foyer not found with ID: " + foyerId, exception.getMessage());
+        verify(foyerRepository, times(1)).findById(foyerId);
+    }
+
+    @Test
+    void testModifyFoyer() {
+        // Test data
+        Long foyerId = 1L;
+        Foyer foyer = new Foyer();
+        foyer.setIdFoyer(foyerId);
+        foyer.setNomFoyer("Modified Foyer");
+
+        // Mocking the repository method
+        when(foyerRepository.save(foyer)).thenReturn(foyer);
+
+        // Executing the service method
+        Foyer result = foyerService.modifyFoyer(foyer);
+
+        // Assertions
+        assertNotNull(result);
+        assertEquals("Modified Foyer", result.getNomFoyer());
+        verify(foyerRepository, times(1)).save(foyer);
+    }
+
+    @Test
     void testRemoveFoyer() {
-        // Données de test
+        // Test data
         Long foyerId = 1L;
 
-        // Exécution du test
+        // Executing the service method
         foyerService.removeFoyer(foyerId);
 
-        // Vérifications
+        // Verifications
         verify(foyerRepository, times(1)).deleteById(foyerId);
     }
 }

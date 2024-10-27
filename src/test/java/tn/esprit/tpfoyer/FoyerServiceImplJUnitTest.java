@@ -10,10 +10,9 @@ import tn.esprit.tpfoyer.entity.Foyer;
 import tn.esprit.tpfoyer.repository.FoyerRepository;
 import tn.esprit.tpfoyer.service.FoyerServiceImpl;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -61,6 +60,15 @@ class FoyerServiceImplJUnitTest {
         Foyer result = foyerService.retrieveFoyer(savedFoyer.getIdFoyer());
         assertEquals(savedFoyer.getIdFoyer(), result.getIdFoyer());
         assertEquals("FoyerTest", result.getNomFoyer());
+    }
+    @Test
+    void testRetrieveFoyer_notFound() {
+        Long invalidId = 999L; // An ID that doesn't exist
+
+        // Assert that the method throws an exception for an invalid ID
+        assertThrows(IllegalArgumentException.class, () -> {
+            foyerService.retrieveFoyer(invalidId);
+        });
     }
 
     @Test
