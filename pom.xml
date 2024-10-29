@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>tn.esprit</groupId>
-    <artifactId>tp-foyer</artifactId>
+    <artifactId>FoyerDevops</artifactId>
     <version>5.0.0</version>
     <name>tp-foyer</name>
     <description>tp-foyer</description>
@@ -78,17 +78,17 @@
         </dependency>
 
         <!-- Spring Boot Test -->
-  
+
 
 
     </dependencies>
-<distributionManagement>
-    <repository>
-        <id>maven-releases</id>
-        <name>Nexus Repository</name>
-        <url>http://192.168.56.10:8081/repository/maven-releases/</url>
-    </repository>
-</distributionManagement>
+    <distributionManagement>
+        <repository>
+            <id>deploymentRepo</id>
+            <name>Nexus Repository</name>
+            <url>http://192.168.56.10:8081/repository/maven-releases/</url>
+        </repository>
+    </distributionManagement>
 
     <build>
         <plugins>
@@ -96,7 +96,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.7</version> <!-- Vérifiez la dernière version -->
+                <version>0.8.7</version>
                 <executions>
                     <execution>
                         <goals>
@@ -128,7 +128,7 @@
                 <configuration>
                     <excludes>
                         <exclude>
-                            <groupId>org.projectlombok</groupId>
+                            <groupId>org.project-lombok</groupId>
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
