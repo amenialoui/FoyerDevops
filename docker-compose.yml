@@ -13,7 +13,7 @@ services:
   tp-foyer:
     depends_on:
       - mysqldb
-    image: ameni023/tp_foyer-Devops:1.0.0
+    image: ameni023/tp_foyer-Devops:5.0.0
     restart: on-failure
     ports:
       - 8082:8082
