@@ -2,6 +2,7 @@ package tn.esprit.tpfoyer.service;
 
 import tn.esprit.tpfoyer.entity.Etudiant;
 
+import java.util.Date;
 import java.util.List;
 
 public interface IEtudiantService {
@@ -14,5 +15,7 @@ public interface IEtudiantService {
     public Etudiant recupererEtudiantParCin(long cin);
 
     List<Etudiant> getEtudiantsAvecReservationValidePourAnneeDonnee(int annee);
+    List<Etudiant> findEtudiantsByUniversite(long idUniversite);
+    String inscrireNouvelEtudiant(String nomEt, String prenomEt, long cin, Date dateNaissance);
 
 }

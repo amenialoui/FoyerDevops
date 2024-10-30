@@ -1,9 +1,11 @@
 package tn.esprit.spring.services;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import tn.esprit.tpfoyer.entity.Etudiant;
 import tn.esprit.tpfoyer.entity.Reservation;
@@ -88,5 +90,63 @@ import static org.mockito.Mockito.when;
        assertTrue(result.isEmpty(), "La liste des étudiants doit être vide.");
     }
 
+
+
+    @Test
+    void testInscrireNouvelEtudiant_Succes() {
+       // Configuration des valeurs d'entrée
+       String nom = "Dupont";
+       String prenom = "Marie";
+       long cin = 12345678L;
+       Calendar cal = Calendar.getInstance();
+       cal.add(Calendar.YEAR, -20); // 20 ans d'âge pour satisfaire la condition d'âge
+       Date dateNaissance = cal.getTime();
+
+       // Mock du comportement du repository
+       Mockito.when(etudiantRepository.existsByCinEtudiant(cin)).thenReturn(false);
+
+       // Appel de la méthode
+       String result = etudiantService.inscrireNouvelEtudiant(nom, prenom, cin, dateNaissance);
+
+       // Vérifications
+       Assertions.assertEquals("Inscription réussie pour l'étudiant Dupont Marie", result);
+       Mockito.verify(etudiantRepository).save(Mockito.any(Etudiant.class));
+    }
+
+    @Test
+    void testInscrireNouvelEtudiant_Echec_CinDejaExistant() {
+       String nom = "Dupont";
+       String prenom = "Marie";
+       long cin = 12345678L;
+       Calendar cal = Calendar.getInstance();
+       cal.add(Calendar.YEAR, -20);
+       Date dateNaissance = cal.getTime();
+
+       // Mock du comportement du repository pour CIN déjà existant
+       Mockito.when(etudiantRepository.existsByCinEtudiant(cin)).thenReturn(true);
+
+       // Appel de la méthode et vérification de l'exception
+       Assertions.assertThrows(IllegalArgumentException.class, () -> {
+          etudiantService.inscrireNouvelEtudiant(nom, prenom, cin, dateNaissance);
+       });
+    }
+
+    @Test
+    void testInscrireNouvelEtudiant_Echec_AgeMoinsDe18Ans() {
+       String nom = "Dupont";
+       String prenom = "Marie";
+       long cin = 12345678L;
+       Calendar cal = Calendar.getInstance();
+       cal.add(Calendar.YEAR, -16); // Âge inférieur à 18 ans
+       Date dateNaissance = cal.getTime();
+
+       // Mock du comportement du repository pour CIN inexistant
+       Mockito.when(etudiantRepository.existsByCinEtudiant(cin)).thenReturn(false);
+
+       // Appel de la méthode et vérification de l'exception
+       Assertions.assertThrows(IllegalArgumentException.class, () -> {
+          etudiantService.inscrireNouvelEtudiant(nom, prenom, cin, dateNaissance);
+       });
+    }
 }
 
