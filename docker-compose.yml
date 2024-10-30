@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .  # Chemin où se trouve le Dockerfile
+      dockerfile: Dockerfile
+    container_name: java_app_container
+    ports:
+      - "8089:8089"  # Expose le port 8089 sur votre machine hôte
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/db?createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=mot_de_passe_mysql  # Modifiez selon votre configuration
+    depends_on:
+      - db  # S'assure que MySQL est prêt avant de lancer l'application
+
+  db:
+    image: mysql:8  # Utilise l'image Docker de MySQL version 8
+    container_name: mysql_container
+    ports:
+      - "3306:3306"  # Expose le port 3306 de MySQL pour les connexions externes
+    environment:
+      - MYSQL_DATABASE=db  # Nom de la base de données (identique à celui défini dans `application.properties`)
+      - MYSQL_ROOT_PASSWORD=mot_de_passe_mysql  # Mot de passe du root MySQL
+    volumes:
+      - mysql_data:/var/lib/mysql  # Volume pour persister les données de MySQL
+
+volumes:
+  mysql_data:  # Volume pour stocker les données MySQL de manière persistante
