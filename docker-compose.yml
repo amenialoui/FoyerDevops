@@ -1,33 +1,26 @@
-version: '3.8'
-
 services:
-  foyerdevops:
+  mysql:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: your_database
+      MYSQL_USER: user
+      MYSQL_PASSWORD: userpassword
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  FoyerDevops:
+    image: Foyerdevops:latest
     build:
       context: .
-      dockerfile: Dockerfile  # Chemin vers votre Dockerfile
+      dockerfile: Dockerfile
     ports:
-      - "8089:8089"  # Mappez le port 8089 du conteneur au port 8089 de l'hôte
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/db?createDatabaseIfNotExist=true
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=root  # Changez si nécessaire
+      - "8089:8089"
     depends_on:
-      - mysql  # FoyerDevops dépend de MySQL
+      - mysql
 
-  app-Foyer-devops:
-    image: your_app_image_name:latest  # Remplacez par l'image de votre application
-    ports:
-      - "8090:8090"  # Mappez le port de votre application
-    depends_on:
-      - foyerdevops  # App-Foyer-devops dépend de foyerdevops
-
-  mysql:
-    image: mysql:5.7  # Utilisez l'image MySQL souhaitée
-    ports:
-      - "3306:3306"  # Mappez le port 3306 du conteneur au port 3306 de l'hôte
-    environment:
-      MYSQL_ROOT_PASSWORD: root  # Changez le mot de passe root si nécessaire
-      MYSQL_DATABASE: db  # Nom de la base de données à créer
-    volumes:
-      - mysql_data:/var/lib/mysql  # Persistez les données MySQL
-
+volumes:
+  mysql_data:
