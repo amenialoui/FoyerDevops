@@ -3,6 +3,7 @@ package tn.esprit.tpfoyer.service;
 import tn.esprit.tpfoyer.entity.Chambre;
 import tn.esprit.tpfoyer.entity.TypeChambre;
 
+import java.util.Date;
 import java.util.List;
 
 public interface IChambreService {
@@ -17,5 +18,8 @@ public interface IChambreService {
     public Chambre trouverchambreSelonEtudiant(long Cin);
 
     public List<Chambre> recupererChambresSelonTyp(TypeChambre tc);
+    public boolean isChambreDisponible(long idChambre, Date dateDebut);
+
+
 
 }

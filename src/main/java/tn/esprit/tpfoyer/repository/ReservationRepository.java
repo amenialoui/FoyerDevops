@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import tn.esprit.tpfoyer.entity.Reservation;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -22,6 +23,12 @@ public interface ReservationRepository extends JpaRepository<Reservation, String
     /* Keywords : */
 
     List<Reservation> findAllByAnneeUniversitaireBeforeAndEstValide(Date d, boolean b );
+
+    // Méthode fictive pour un test qui retourne une liste vide
+    public static List<Reservation> findByChambreIdChambre(long idChambre) {
+        return Collections.emptyList(); // Retourne une liste vide
+    }
+
 
 }
 

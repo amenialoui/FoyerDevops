@@ -23,6 +23,10 @@ public class Reservation {
 
     Date anneeUniversitaire;
     boolean estValide;
+    @ManyToOne
+    @JoinColumn(name = "chambre_id", nullable = false)
+    private Chambre chambre;
+
 
 
 

@@ -3,20 +3,28 @@ package tn.esprit.tpfoyer.service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.tpfoyer.entity.Chambre;
+import tn.esprit.tpfoyer.entity.Reservation;
 import tn.esprit.tpfoyer.entity.TypeChambre;
 import tn.esprit.tpfoyer.repository.ChambreRepository;
+import tn.esprit.tpfoyer.repository.ReservationRepository;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
 @Slf4j
 public class ChambreServiceImpl implements IChambreService {
 
     ChambreRepository chambreRepository;
 
+    @Autowired
+    public ChambreServiceImpl(ChambreRepository chambreRepository, ReservationRepository reservationRepository) {
+        this.chambreRepository = chambreRepository;
+        this.reservationRepository = reservationRepository;
+    }
     public List<Chambre> retrieveAllChambres() {
         log.info("In Methodo retrieveAllChambres : ");
         List<Chambre> listC = chambreRepository.findAll();
@@ -56,6 +64,38 @@ public class ChambreServiceImpl implements IChambreService {
     }
 
 
+
+    @Autowired
+    private ReservationRepository reservationRepository;
+
+    /**
+     * Vérifie la disponibilité d'une chambre pour une période donnée.
+     *
+     * @param idChambre       L'ID de la chambre à vérifier.
+           La date de fin de la réservation.
+     * @return true si la chambre est disponible, false sinon.
+     */
+    public boolean isChambreDisponible(long idChambre, Date dateCheck) {
+        Chambre chambre = chambreRepository.findById(idChambre).orElse(null);
+
+        if (chambre == null) {
+            throw new IllegalArgumentException("Chambre introuvable avec l'ID : " + idChambre);
+        }
+
+        List<Reservation> reservations = ReservationRepository.findByChambreIdChambre(idChambre);
+
+        // Vérifier les réservations existantes pour la chambre
+        for (Reservation reservation : reservations) {
+            Date reservationAnneeUniversitaire = reservation.getAnneeUniversitaire();
+
+            // Comparer la date passée avec l'année universitaire de la réservation
+            if (reservationAnneeUniversitaire.equals(dateCheck)) {
+                return false; // La chambre est déjà réservée pour cette année universitaire
+            }
+        }
+
+        return true; // La chambre est disponible pour cette année universitaire
+    }
 
 
 

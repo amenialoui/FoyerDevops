@@ -6,16 +6,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import tn.esprit.tpfoyer.entity.Chambre;
+import tn.esprit.tpfoyer.entity.Reservation;
 import tn.esprit.tpfoyer.entity.TypeChambre;
 import tn.esprit.tpfoyer.repository.ChambreRepository;
+import tn.esprit.tpfoyer.repository.ReservationRepository;
 import tn.esprit.tpfoyer.service.ChambreServiceImpl;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class ChambreServiceTest {
@@ -135,6 +134,67 @@ public class ChambreServiceTest {
 
         // Vérification des résultats
         assertNotNull(result);
-        verify(chambreRepository, times(1)).trouverChselonEt(cin);
+        verify(chambreRepository, times(1)).trouverChselonEt(cin);}
+
+/////////////////////////////////////////////////////////////////////////////////////
+
+        @Test
+        public void testChambreIntrouvable() {
+            // Arrange
+            long idChambre = 1L;
+            Date dateCheck = new Date();
+            when(chambreRepository.findById(idChambre)).thenReturn(Optional.empty());
+
+            // Act & Assert
+            Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+                chambreService.isChambreDisponible(idChambre, dateCheck);
+            });
+
+            assertEquals("Chambre introuvable avec l'ID : " + idChambre, exception.getMessage());
+        }
+
+    @BeforeEach
+    public void setUp() {
+        // Initialiser les mocks
+        MockitoAnnotations.openMocks(this);
     }
+    @Test
+    public void testChambreNonDisponible() {
+        // Arrange
+        long idChambre = 1L;
+        Date dateCheck = new GregorianCalendar(2024, Calendar.NOVEMBER, 4).getTime();
+
+        Chambre chambre1 = new Chambre();
+        chambre1.setIdChambre(idChambre);
+
+        Reservation reservation = new Reservation();
+        reservation.setAnneeUniversitaire(dateCheck);  // Date de réservation correspondant à dateCheck
+
+        when(chambreRepository.findById(idChambre)).thenReturn(Optional.of(chambre1));
+        // Correction ici : utiliser l'instance mockée reservationRepository
+        when(ReservationRepository.findByChambreIdChambre(idChambre)).thenReturn(Arrays.asList(reservation));
+
+        // Act
+        boolean result = chambreService.isChambreDisponible(idChambre, dateCheck);
+
+        // Assert
+        assertFalse(result);
+    }
+    @Test
+    public void testIsChambreDisponible_whenNoReservations() {
+        long idChambre = 1L;
+        Date dateCheck = new Date();
+
+        Chambre chambre = new Chambre();
+        chambre.setIdChambre(idChambre);
+
+        when(chambreRepository.findById(idChambre)).thenReturn(Optional.of(chambre));
+        when(ReservationRepository.findByChambreIdChambre(idChambre)).thenReturn(Arrays.asList());
+
+        boolean result = chambreService.isChambreDisponible(idChambre, dateCheck);
+
+        assertTrue(result); // La chambre doit être disponible
+    }
+
+
 }

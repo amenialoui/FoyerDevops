@@ -1,10 +1,13 @@
 package tn.esprit.tpfoyer.control;
 
 import lombok.AllArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.tpfoyer.entity.Chambre;
 import tn.esprit.tpfoyer.entity.TypeChambre;
 import tn.esprit.tpfoyer.service.IChambreService;
+
+import java.util.Date;
 import java.util.List;
 
 
@@ -21,8 +24,12 @@ public class ChambreRestController {
         List<Chambre> listChambres = chambreService.retrieveAllChambres();
         return listChambres;
     }
-
-
+    @GetMapping("/ischambredispo/{chambreId}/{dateCheck}")
+    public boolean isChambreDisponible(
+            @PathVariable("chambreId") Long idc,
+            @PathVariable("dateCheck") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateCheck) {
+        return chambreService.isChambreDisponible(idc, dateCheck);
+    }
 
     @GetMapping("/retrieve-chambre/{chambre-id}")
     public Chambre retrieveChambre(@PathVariable("chambre-id") Long chId) {
