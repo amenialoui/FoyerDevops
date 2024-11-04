@@ -1,5 +1,6 @@
 package tn.esprit.spring.services;
 
+import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -180,6 +181,15 @@ public class ChambreServiceTest {
         // Assert
         assertFalse(result);
     }
+
+
+    @Mock
+    private ReservationRepository reservationRepository;
+
+
+
+
+
     @Test
     public void testIsChambreDisponible_whenNoReservations() {
         // Arrange
