@@ -143,15 +143,15 @@ public void testTrouverChambreSelonEtudiant() {
 
     @Test
     public void testTrouverChambreSelonEtudiant_CINExist() {
-        long cin = 12345678L;
+        long cin = 123456789;
         Chambre chambre = new Chambre();
-        chambre.setIdChambre(1L); // Ajoutez un ID pour vérification
+        chambre.setIdChambre(1); // Ajoutez un ID pour vérification
         when(chambreRepository.trouverChselonEt(cin)).thenReturn(chambre);
 
         Optional<Chambre> result = chambreService.trouverchambreSelonEtudiant(cin);
 
         assertTrue(result.isPresent(), "La chambre doit être présente pour un CIN valide");
-        assertEquals(1L, result.get().getIdChambre(), "L'ID de la chambre retournée doit correspondre à l'ID attendu");
+        assertEquals(1, result.get().getIdChambre(), "L'ID de la chambre retournée doit correspondre à l'ID attendu");
         verify(chambreRepository, times(1)).trouverChselonEt(cin);
     }
 
