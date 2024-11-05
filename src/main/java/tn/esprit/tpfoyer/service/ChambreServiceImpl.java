@@ -14,6 +14,7 @@ import tn.esprit.tpfoyer.repository.ReservationRepository;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -125,14 +126,21 @@ public class ChambreServiceImpl implements IChambreService {
 
 
 
-    public Chambre trouverchambreSelonEtudiant(long cin) {
+    public Optional<Chambre> trouverchambreSelonEtudiant(long cin) {
         // Vérification si le CIN est invalide
         if (cin <= 0) {
             throw new IllegalArgumentException("Le CIN doit être un nombre positif.");
         }
 
-        // Appeler la méthode du repository pour trouver la chambre
-        return chambreRepository.trouverChselonEt(cin);
+        try {
+            // Appeler la méthode du repository pour trouver la chambre
+            return Optional.ofNullable(chambreRepository.trouverChselonEt(cin));
+        } catch (Exception e) {
+            // Gérer l'exception et éventuellement logguer l'erreur
+            System.err.println("Erreur lors de la recherche de la chambre : " + e.getMessage());
+            return Optional.empty(); // Retourner un Optional vide en cas d'erreur
+        }
     }
+
 
 }

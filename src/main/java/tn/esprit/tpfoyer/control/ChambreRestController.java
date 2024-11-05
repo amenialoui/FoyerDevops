@@ -2,13 +2,16 @@ package tn.esprit.tpfoyer.control;
 
 import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import tn.esprit.tpfoyer.entity.Chambre;
 import tn.esprit.tpfoyer.entity.TypeChambre;
 import tn.esprit.tpfoyer.service.IChambreService;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -83,9 +86,17 @@ public class ChambreRestController {
     // http://localhost:8089/tpfoyer/chambre/retrieve-chambre/8
     @GetMapping("/trouver-chambre-selon-etudiant/{cin}")
     public Chambre trouverChSelonEt(@PathVariable("cin") long cin) {
-        Chambre chambre = chambreService.trouverchambreSelonEtudiant(cin);
-        return chambre;
+        Optional<Chambre> chambreOpt = chambreService.trouverchambreSelonEtudiant(cin);
+
+        // Vérifiez si la chambre est présente
+        if (chambreOpt.isPresent()) {
+            return chambreOpt.get(); // Retourne la chambre
+        } else {
+            // Vous pouvez lancer une exception ou retourner une réponse appropriée
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Chambre non trouvée pour le CIN: " + cin);
+        }
     }
+
 
 
 }
