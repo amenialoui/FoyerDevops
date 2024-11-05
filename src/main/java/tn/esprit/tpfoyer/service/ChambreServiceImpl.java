@@ -129,18 +129,29 @@ public class ChambreServiceImpl implements IChambreService {
     public Optional<Chambre> trouverchambreSelonEtudiant(long cin) {
         // Vérification si le CIN est invalide
         if (cin <= 0) {
-            throw new IllegalArgumentException("Le CIN doit être un nombre positif.");
+            throw new IllegalArgumentException("CIN invalide");
         }
 
         try {
             // Appeler la méthode du repository pour trouver la chambre
-            return Optional.ofNullable(chambreRepository.trouverChselonEt(cin));
+            Optional<Chambre> chambre = Optional.ofNullable(chambreRepository.trouverChselonEt(cin));
+
+            // Vérifier si la chambre est présente, sinon retourner un Optional vide
+            if (chambre.isEmpty()) {
+                // Logique pour le cas où le CIN n'existe pas dans la base de données
+                System.err.println("La chambre n'a pas été trouvée pour le CIN: " + cin);
+                return Optional.empty(); // Retourner un Optional vide si la chambre n'existe pas
+            }
+
+            return chambre; // Retourner la chambre trouvée
+
         } catch (Exception e) {
             // Gérer l'exception et éventuellement logguer l'erreur
             System.err.println("Erreur lors de la recherche de la chambre : " + e.getMessage());
             return Optional.empty(); // Retourner un Optional vide en cas d'erreur
         }
     }
+
 
 
 
