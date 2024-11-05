@@ -142,19 +142,19 @@ public void testTrouverChambreSelonEtudiant() {
 
 
     @Test
-    public void testTrouverchambreSelonEtudiant_CINExist() {
-        // Préparation des données simulées pour un CIN valide
+    public void testTrouverChambreSelonEtudiant_CINExist() {
         long cin = 12345678L;
         Chambre chambre = new Chambre();
+        chambre.setIdChambre(1L); // Ajoutez un ID pour vérification
         when(chambreRepository.trouverChselonEt(cin)).thenReturn(chambre);
 
-        // Appel de la méthode à tester
         Optional<Chambre> result = chambreService.trouverchambreSelonEtudiant(cin);
 
-        // Vérification des résultats
-        assertNotNull(result, "La chambre ne doit pas être null pour un CIN valide");
+        assertTrue(result.isPresent(), "La chambre doit être présente pour un CIN valide");
+        assertEquals(1L, result.get().getIdChambre(), "L'ID de la chambre retournée doit correspondre à l'ID attendu");
         verify(chambreRepository, times(1)).trouverChselonEt(cin);
     }
+
 
     @Test
     void testTrouverchambreSelonEtudiant_CINNotExist() {
@@ -223,7 +223,7 @@ public void testTrouverChambreSelonEtudiant() {
             assertEquals("Chambre introuvable avec l'ID : " + idChambre, exception.getMessage());
         }
 
- 
+
 
 
 
