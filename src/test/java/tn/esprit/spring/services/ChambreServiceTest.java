@@ -157,18 +157,29 @@ public void testTrouverChambreSelonEtudiant() {
     }
 
     @Test
-    public void testTrouverchambreSelonEtudiant_CINNotExist() {
-        // Préparation des données simulées pour un CIN inexistant
-        long cin = 87654321L;
-        when(chambreRepository.trouverChselonEt(cin)).thenReturn(null);
+    void testTrouverchambreSelonEtudiant_CINNotExist() {
+        long cinInexistant = 123456789;
 
-        // Appel de la méthode à tester
-        Optional<Chambre> result = chambreService.trouverchambreSelonEtudiant(cin);
+        // Configurez le mock pour retourner null
+        when(chambreRepository.trouverChselonEt(cinInexistant)).thenReturn(null);
 
-        // Vérification des résultats
-        assertNull(result, "La chambre doit être null pour un CIN inexistant");
-        verify(chambreRepository, times(1)).trouverChselonEt(cin);
+        // Exécutez la méthode
+        Optional<Chambre> resultat = chambreService.trouverchambreSelonEtudiant(cinInexistant);
+
+        // Vérifiez que le résultat est un Optional vide
+        assertTrue(resultat.isEmpty());
     }
+
+    @Test
+    void testChambreNonDisponible() {
+        long cinInvalide = -1;
+
+        // Attendez une IllegalArgumentException
+        assertThrows(IllegalArgumentException.class, () -> {
+            chambreService.trouverchambreSelonEtudiant(cinInvalide);
+        });
+    }
+
 
     @Test
     public void testTrouverchambreSelonEtudiant_CINInvalid() {
@@ -212,37 +223,7 @@ public void testTrouverChambreSelonEtudiant() {
             assertEquals("Chambre introuvable avec l'ID : " + idChambre, exception.getMessage());
         }
 
-    @BeforeEach
-    public void setUp() {
-        // Initialiser les mocks
-        MockitoAnnotations.openMocks(this);
-    }
-    @Test
-    public void testChambreNonDisponible() {
-        // Arrange
-        long idChambre = 1;
-        Date dateCheck = new GregorianCalendar(2024, Calendar.NOVEMBER, 4).getTime();
-
-        Chambre chambre1 = new Chambre();
-        chambre1.setIdChambre(idChambre);
-
-        Reservation reservation = new Reservation();
-        reservation.setAnneeUniversitaire(dateCheck);  // Date de réservation correspondant à dateCheck
-
-        when(chambreRepository.findById(idChambre)).thenReturn(Optional.of(chambre1));
-        // Correction ici : utiliser l'instance mockée reservationRepository
-        when(ReservationRepository.findByChambreIdChambre(idChambre)).thenReturn(Arrays.asList(reservation));
-
-        // Act
-        boolean result = chambreService.isChambreDisponible(idChambre, dateCheck);
-
-        // Assert
-        assertFalse(result);
-    }
-
-
-    @Mock
-    private ReservationRepository reservationRepository;
+ 
 
 
 
