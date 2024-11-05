@@ -133,12 +133,13 @@ public void testTrouverChambreSelonEtudiant() {
         Chambre chambre = optionalChambre.get(); // Récupérer la chambre à l'intérieur de l'Optional
         // Ajoutez vos assertions ici pour vérifier les propriétés de la chambre
         assertNotNull(chambre);
-        // Par exemple, assertEquals(chambre.getId(), expectedId);
+        // Par exemple, assertEquals(expectedId, chambre.getId());
     } else {
         // Gérer le cas où la chambre n'est pas trouvée
         fail("La chambre n'a pas été trouvée pour le CIN: " + cinValide);
     }
 }
+
 
     @Test
     public void testTrouverchambreSelonEtudiant_CINExist() {
@@ -148,7 +149,7 @@ public void testTrouverChambreSelonEtudiant() {
         when(chambreRepository.trouverChselonEt(cin)).thenReturn(chambre);
 
         // Appel de la méthode à tester
-        Chambre result = chambreService.trouverchambreSelonEtudiant(cin);
+        Optional<Chambre> result = chambreService.trouverchambreSelonEtudiant(cin);
 
         // Vérification des résultats
         assertNotNull(result, "La chambre ne doit pas être null pour un CIN valide");
@@ -162,7 +163,7 @@ public void testTrouverChambreSelonEtudiant() {
         when(chambreRepository.trouverChselonEt(cin)).thenReturn(null);
 
         // Appel de la méthode à tester
-        Chambre result = chambreService.trouverchambreSelonEtudiant(cin);
+        Optional<Chambre> result = chambreService.trouverchambreSelonEtudiant(cin);
 
         // Vérification des résultats
         assertNull(result, "La chambre doit être null pour un CIN inexistant");
