@@ -123,24 +123,19 @@ public class ChambreServiceTest {
         verify(chambreRepository, times(1)).findAllByTypeC(typeChambre);
     }
 ////////////////////////////////////////////////////////////////////////////////
-@Test
-public void testTrouverChambreSelonEtudiant() {
-    long cinValide = 123456789; // Remplacez par un CIN valide
-    Optional<Chambre> optionalChambre = chambreService.trouverchambreSelonEtudiant(cinValide);
 
-    // Vérifier si la chambre est présente
-    if (optionalChambre.isPresent()) {
-        Chambre chambre = optionalChambre.get(); // Récupérer la chambre à l'intérieur de l'Optional
-        // Ajoutez vos assertions ici pour vérifier les propriétés de la chambre
-        assertNotNull(chambre);
-        // Par exemple, assertEquals(expectedId, chambre.getId());
-    } else {
-        // Gérer le cas où la chambre n'est pas trouvée
-        fail("La chambre n'a pas été trouvée pour le CIN: " + cinValide);
+
+    @Test
+    public void testTrouverChambreSelonEtudiant() {
+        long cin = 123456789;
+        Chambre chambre = new Chambre(); // Créez une instance de Chambre avec les propriétés nécessaires
+        when(chambreRepository.trouverChselonEt(cin)).thenReturn(chambre); // Configurez le mock
+
+        Optional<Chambre> result = chambreService.trouverchambreSelonEtudiant(cin);
+
+        assertTrue(result.isPresent()); // Vérifiez que le résultat est présent
+        assertEquals(chambre, result.get()); // Vérifiez que c'est bien la chambre attendue
     }
-}
-
-
     @Test
     public void testTrouverChambreSelonEtudiant_CINExist() {
         long cin = 123456789;
