@@ -16,7 +16,6 @@ public interface IChambreService {
 
     // Here we will add later methods calling keywords and methods calling JPQL
     public Chambre trouverchambreSelonEtudiant(long Cin);
-
     public List<Chambre> recupererChambresSelonTyp(TypeChambre tc);
     public boolean isChambreDisponible(long idChambre, Date dateDebut);
 

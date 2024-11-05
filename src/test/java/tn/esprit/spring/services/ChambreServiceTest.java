@@ -217,7 +217,7 @@ public class ChambreServiceTest {
     @Test
     public void testChambreNonDisponible() {
         // Arrange
-        long idChambre = 1L;
+        long idChambre = 1;
         Date dateCheck = new GregorianCalendar(2024, Calendar.NOVEMBER, 4).getTime();
 
         Chambre chambre1 = new Chambre();
@@ -245,7 +245,7 @@ public class ChambreServiceTest {
 
 
 
-    
+
 
 
 

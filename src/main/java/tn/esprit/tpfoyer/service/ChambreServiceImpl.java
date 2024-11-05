@@ -49,6 +49,8 @@ public class ChambreServiceImpl implements IChambreService {
         return c;
     }
 
+
+
     public void removeChambre(Long chambreId) {
         chambreRepository.deleteById(chambreId);
     }
@@ -124,8 +126,13 @@ public class ChambreServiceImpl implements IChambreService {
 
 
     public Chambre trouverchambreSelonEtudiant(long cin) {
-       //
+        // Vérification si le CIN est invalide
+        if (cin <= 0) {
+            throw new IllegalArgumentException("Le CIN doit être un nombre positif.");
+        }
 
+        // Appeler la méthode du repository pour trouver la chambre
         return chambreRepository.trouverChselonEt(cin);
     }
+
 }
