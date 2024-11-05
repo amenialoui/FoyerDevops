@@ -123,20 +123,22 @@ public class ChambreServiceTest {
         verify(chambreRepository, times(1)).findAllByTypeC(typeChambre);
     }
 ////////////////////////////////////////////////////////////////////////////////
-    @Test
-    public void testTrouverchambreSelonEtudiant() {
-        // Préparation des données simulées
-        long cin = 12345678L;
-        Chambre chambre = new Chambre();
-        when(chambreRepository.trouverChselonEt(cin)).thenReturn(chambre);
+@Test
+public void testTrouverChambreSelonEtudiant() {
+    long cinValide = 123456789; // Remplacez par un CIN valide
+    Optional<Chambre> optionalChambre = chambreService.trouverchambreSelonEtudiant(cinValide);
 
-        // Appel de la méthode à tester
-        Chambre result = chambreService.trouverchambreSelonEtudiant(cin);
-
-        // Vérification des résultats
-        assertNotNull(result);
-        verify(chambreRepository, times(1)).trouverChselonEt(cin);}
-
+    // Vérifier si la chambre est présente
+    if (optionalChambre.isPresent()) {
+        Chambre chambre = optionalChambre.get(); // Récupérer la chambre à l'intérieur de l'Optional
+        // Ajoutez vos assertions ici pour vérifier les propriétés de la chambre
+        assertNotNull(chambre);
+        // Par exemple, assertEquals(chambre.getId(), expectedId);
+    } else {
+        // Gérer le cas où la chambre n'est pas trouvée
+        fail("La chambre n'a pas été trouvée pour le CIN: " + cinValide);
+    }
+}
 
     @Test
     public void testTrouverchambreSelonEtudiant_CINExist() {
