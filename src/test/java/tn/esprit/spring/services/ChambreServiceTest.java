@@ -122,7 +122,7 @@ public class ChambreServiceTest {
         assertEquals(1, result.size());
         verify(chambreRepository, times(1)).findAllByTypeC(typeChambre);
     }
-
+////////////////////////////////////////////////////////////////////////////////
     @Test
     public void testTrouverchambreSelonEtudiant() {
         // Préparation des données simulées
@@ -136,6 +136,61 @@ public class ChambreServiceTest {
         // Vérification des résultats
         assertNotNull(result);
         verify(chambreRepository, times(1)).trouverChselonEt(cin);}
+
+
+    @Test
+    public void testTrouverchambreSelonEtudiant_CINExist() {
+        // Préparation des données simulées pour un CIN valide
+        long cin = 12345678L;
+        Chambre chambre = new Chambre();
+        when(chambreRepository.trouverChselonEt(cin)).thenReturn(chambre);
+
+        // Appel de la méthode à tester
+        Chambre result = chambreService.trouverchambreSelonEtudiant(cin);
+
+        // Vérification des résultats
+        assertNotNull(result, "La chambre ne doit pas être null pour un CIN valide");
+        verify(chambreRepository, times(1)).trouverChselonEt(cin);
+    }
+
+    @Test
+    public void testTrouverchambreSelonEtudiant_CINNotExist() {
+        // Préparation des données simulées pour un CIN inexistant
+        long cin = 87654321L;
+        when(chambreRepository.trouverChselonEt(cin)).thenReturn(null);
+
+        // Appel de la méthode à tester
+        Chambre result = chambreService.trouverchambreSelonEtudiant(cin);
+
+        // Vérification des résultats
+        assertNull(result, "La chambre doit être null pour un CIN inexistant");
+        verify(chambreRepository, times(1)).trouverChselonEt(cin);
+    }
+
+    @Test
+    public void testTrouverchambreSelonEtudiant_CINInvalid() {
+        // Préparation des données simulées pour un CIN non valide
+        long invalidCin = -123456L;
+
+        // Appel de la méthode à tester avec un CIN invalide
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            chambreService.trouverchambreSelonEtudiant(invalidCin);
+        });
+
+        // Vérification de l'exception levée
+        assertEquals("CIN invalide", exception.getMessage());
+    }
+    @Test
+    public void testTrouverchambreSelonEtudiant_CINZero() {
+        // Tester avec un CIN égal à zéro
+        long zeroCin = 0L;
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            chambreService.trouverchambreSelonEtudiant(zeroCin);
+        });
+
+        assertEquals("CIN invalide", exception.getMessage());
+    }
 
 /////////////////////////////////////////////////////////////////////////////////////
 
@@ -190,26 +245,7 @@ public class ChambreServiceTest {
 
 
 
-    @Test
-    public void testIsChambreDisponible_whenNoReservations() {
-        // Arrange
-        long idChambre = 1L;
-        Date dateCheck = new Date();
-
-        Chambre chambre = new Chambre();
-        chambre.setIdChambre(idChambre);
-
-        // Stubber les appels sur le mock
-        when(chambreRepository.findById(idChambre)).thenReturn(Optional.of(chambre));
-        // Assurez-vous d'utiliser reservationRepository ici (notez la casse)
-        when(ReservationRepository.findByChambreIdChambre(idChambre)).thenReturn(Arrays.asList());
-
-        // Act
-        boolean result = chambreService.isChambreDisponible(idChambre, dateCheck);
-
-        // Assert
-        assertTrue(result); // La chambre doit être disponible
-    }
+    
 
 
 

@@ -11,6 +11,7 @@ import tn.esprit.tpfoyer.entity.TypeChambre;
 import tn.esprit.tpfoyer.repository.ChambreRepository;
 import tn.esprit.tpfoyer.repository.ReservationRepository;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -83,20 +84,26 @@ public class ChambreServiceImpl implements IChambreService {
         }
 
         List<Reservation> reservations = ReservationRepository.findByChambreIdChambre(idChambre);
+        System.out.println("Nombre de réservations récupérées : " + reservations.size());
 
-        // Vérifier les réservations existantes pour la chambre
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(dateCheck);
+        int checkYear = calendar.get(Calendar.YEAR);
+
         for (Reservation reservation : reservations) {
-            Date reservationAnneeUniversitaire = reservation.getAnneeUniversitaire();
+            calendar.setTime(reservation.getAnneeUniversitaire());
+            int reservationYear = calendar.get(Calendar.YEAR);
+            System.out.println("Année de la réservation : " + reservationYear + ", Année de vérification : " + checkYear);
 
-            // Comparer la date passée avec l'année universitaire de la réservation
-            if (reservationAnneeUniversitaire.equals(dateCheck)) {
-                return false; // La chambre est déjà réservée pour cette année universitaire
+            if (reservationYear == checkYear) {
+                System.out.println("La chambre est réservée pour l'année universitaire " + checkYear);
+                return false;
             }
         }
 
-        return true; // La chambre est disponible pour cette année universitaire
+        System.out.println("La chambre est disponible pour l'année universitaire " + checkYear);
+        return true;
     }
-
 
 
 
