@@ -1,48 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ChambreServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tp-foyer</a> &gt; <a href="index.source.html" class="el_package">tn.esprit.tpfoyer.service</a> &gt; <span class="el_source">ChambreServiceImpl.java</span></div><h1>ChambreServiceImpl.java</h1><pre class="source lang-java linenums">package tn.esprit.tpfoyer.service;
 
 
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.tpfoyer.entity.Chambre;
+import tn.esprit.tpfoyer.entity.Reservation;
 import tn.esprit.tpfoyer.entity.TypeChambre;
 import tn.esprit.tpfoyer.repository.ChambreRepository;
+import tn.esprit.tpfoyer.repository.ReservationRepository;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.logging.Logger;
 
 @Service
-@AllArgsConstructor
-<span class="fc" id="L15">@Slf4j</span>
+<span class="fc" id="L21">@Slf4j</span>
 public class ChambreServiceImpl implements IChambreService {
 
     ChambreRepository chambreRepository;
+    // Créer un logger pour la classe
 
+<span class="fc" id="L27">    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(ChambreServiceImpl.class);</span>
+    @Autowired
+<span class="fc" id="L29">    public ChambreServiceImpl(ChambreRepository chambreRepository, ReservationRepository reservationRepository) {</span>
+<span class="fc" id="L30">        this.chambreRepository = chambreRepository;</span>
+<span class="fc" id="L31">        this.reservationRepository = reservationRepository;</span>
+<span class="fc" id="L32">    }</span>
     public List&lt;Chambre&gt; retrieveAllChambres() {
-<span class="fc" id="L21">        log.info(&quot;In Methodo retrieveAllChambres : &quot;);</span>
-<span class="fc" id="L22">        List&lt;Chambre&gt; listC = chambreRepository.findAll();</span>
-<span class="fc" id="L23">        log.info(&quot;Out of retrieveAllChambres : &quot;);</span>
+<span class="fc" id="L34">        log.info(&quot;In Methodo retrieveAllChambres : &quot;);</span>
+<span class="fc" id="L35">        List&lt;Chambre&gt; listC = chambreRepository.findAll();</span>
+<span class="fc" id="L36">        log.info(&quot;Out of retrieveAllChambres : &quot;);</span>
 
-<span class="fc" id="L25">        return listC;</span>
+<span class="fc" id="L38">        return listC;</span>
     }
 
     public Chambre retrieveChambre(Long chambreId) {
-<span class="fc" id="L29">        Chambre c = chambreRepository.findById(chambreId).get();</span>
-<span class="fc" id="L30">        return c;</span>
+<span class="fc" id="L42">        return chambreRepository.findById(chambreId).orElse(null);</span>
     }
 
+
     public Chambre addChambre(Chambre c) {
-<span class="fc" id="L34">        Chambre chambre = chambreRepository.save(c);</span>
-<span class="fc" id="L35">        return chambre;</span>
+<span class="fc" id="L47">        return chambreRepository.save(c);</span>
     }
 
     public Chambre modifyChambre(Chambre c) {
-<span class="fc" id="L39">        Chambre chambre = chambreRepository.save(c);</span>
-<span class="fc" id="L40">        return c;</span>
+<span class="fc" id="L51">        return chambreRepository.save(c);</span>
     }
 
+
+
     public void removeChambre(Long chambreId) {
-<span class="fc" id="L44">        chambreRepository.deleteById(chambreId);</span>
-<span class="fc" id="L45">    }</span>
+<span class="fc" id="L57">        chambreRepository.deleteById(chambreId);</span>
+<span class="fc" id="L58">    }</span>
 
 
 
@@ -52,7 +65,47 @@ public class ChambreServiceImpl implements IChambreService {
 
     public List&lt;Chambre&gt; recupererChambresSelonTyp(TypeChambre tc)
     {
-<span class="fc" id="L55">        return chambreRepository.findAllByTypeC(tc);</span>
+<span class="fc" id="L68">        return chambreRepository.findAllByTypeC(tc);</span>
+    }
+
+
+
+    final ReservationRepository reservationRepository;
+
+    /**
+     * Vérifie la disponibilité d'une chambre pour une période donnée.
+     *
+     * @param idChambre       L'ID de la chambre à vérifier.
+           La date de fin de la réservation.
+     * @return true si la chambre est disponible, false sinon.
+     */
+    public boolean isChambreDisponible(long idChambre, Date dateCheck) {
+<span class="fc" id="L83">        Chambre chambre = chambreRepository.findById(idChambre).orElse(null);</span>
+
+<span class="pc bpc" id="L85" title="1 of 2 branches missed.">        if (chambre == null) {</span>
+<span class="fc" id="L86">            throw new IllegalArgumentException(&quot;Chambre introuvable avec l'ID : &quot; + idChambre);</span>
+        }
+
+
+<span class="nc" id="L90">        List&lt;Reservation&gt; reservations = ReservationRepository.findByChambreIdChambre(idChambre);</span>
+<span class="nc" id="L91">        logger.info(&quot;Nombre de réservations récupérées :&quot; + reservations.size());</span>
+<span class="nc" id="L92">        Calendar calendar = Calendar.getInstance();</span>
+<span class="nc" id="L93">        calendar.setTime(dateCheck);</span>
+<span class="nc" id="L94">        int checkYear = calendar.get(Calendar.YEAR);</span>
+
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        for (Reservation reservation : reservations) {</span>
+<span class="nc" id="L97">            calendar.setTime(reservation.getAnneeUniversitaire());</span>
+<span class="nc" id="L98">            int reservationYear = calendar.get(Calendar.YEAR);</span>
+<span class="nc" id="L99">            logger.info(&quot;Année de la réservation : &quot; + reservationYear + &quot;, Année de vérification : &quot; + checkYear);</span>
+
+<span class="nc bnc" id="L101" title="All 2 branches missed.">            if (reservationYear == checkYear) {</span>
+<span class="nc" id="L102">               logger.info(&quot;La chambre est réservée pour l'année universitaire &quot; + checkYear);</span>
+<span class="nc" id="L103">                return false;</span>
+            }
+<span class="nc" id="L105">        }</span>
+
+<span class="nc" id="L107">        logger.info(&quot;La chambre est disponible pour l'année universitaire &quot; + checkYear);</span>
+<span class="nc" id="L108">        return true;</span>
     }
 
 
@@ -73,13 +126,34 @@ public class ChambreServiceImpl implements IChambreService {
 
 
 
+    public Optional&lt;Chambre&gt; trouverchambreSelonEtudiant(long cin) {
+        // Vérification si le CIN est invalide
+<span class="fc bfc" id="L131" title="All 2 branches covered.">        if (cin &lt;= 0) {</span>
+<span class="fc" id="L132">            throw new IllegalArgumentException(&quot;CIN invalide&quot;);</span>
+        }
 
+        try {
+            // Appeler la méthode du repository pour trouver la chambre
+<span class="fc" id="L137">            Optional&lt;Chambre&gt; chambre = Optional.ofNullable(chambreRepository.trouverChselonEt(cin));</span>
 
+            // Vérifier si la chambre est présente, sinon retourner un Optional vide
+<span class="fc bfc" id="L140" title="All 2 branches covered.">            if (chambre.isEmpty()) {</span>
+                // Logique pour le cas où le CIN n'existe pas dans la base de données
+<span class="fc" id="L142">                logger.info(&quot;La chambre n'a pas été trouvée pour le CIN: &quot; + cin);</span>
+<span class="fc" id="L143">                return Optional.empty(); // Retourner un Optional vide si la chambre n'existe pas</span>
+            }
 
-    public Chambre trouverchambreSelonEtudiant(long cin) {
-       //
+<span class="fc" id="L146">            return chambre; // Retourner la chambre trouvée</span>
 
-<span class="fc" id="L82">        return chambreRepository.trouverChselonEt(cin);</span>
+<span class="nc" id="L148">        } catch (Exception e) {</span>
+            // Gérer l'exception et éventuellement logguer l'erreur
+<span class="nc" id="L150">            logger.info(&quot;Erreur lors de la recherche de la chambre : &quot; + e.getMessage());</span>
+<span class="nc" id="L151">            return Optional.empty(); // Retourner un Optional vide en cas d'erreur</span>
+        }
     }
+
+
+
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

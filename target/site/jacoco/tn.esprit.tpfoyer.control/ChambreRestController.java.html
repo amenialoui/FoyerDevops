@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ChambreRestController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tp-foyer</a> &gt; <a href="index.source.html" class="el_package">tn.esprit.tpfoyer.control</a> &gt; <span class="el_source">ChambreRestController.java</span></div><h1>ChambreRestController.java</h1><pre class="source lang-java linenums">package tn.esprit.tpfoyer.control;
 
 import lombok.AllArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import tn.esprit.tpfoyer.entity.Chambre;
 import tn.esprit.tpfoyer.entity.TypeChambre;
 import tn.esprit.tpfoyer.service.IChambreService;
+
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -18,43 +24,47 @@ public class ChambreRestController {
 // http://localhost:8089/tpfoyer/chambre/retrieve-all-chambres
      @GetMapping(&quot;/retrieve-all-chambres&quot;)
     public List&lt;Chambre&gt; getChambres() {
-<span class="nc" id="L21">        List&lt;Chambre&gt; listChambres = chambreService.retrieveAllChambres();</span>
-<span class="nc" id="L22">        return listChambres;</span>
+<span class="nc" id="L27">        List&lt;Chambre&gt; listChambres = chambreService.retrieveAllChambres();</span>
+<span class="nc" id="L28">        return listChambres;</span>
     }
-
-
+    @GetMapping(&quot;/ischambredispo/{chambreId}/{dateCheck}&quot;)
+    public boolean isChambreDisponible(
+            @PathVariable(&quot;chambreId&quot;) Long idc,
+            @PathVariable(&quot;dateCheck&quot;) @DateTimeFormat(pattern = &quot;yyyy-MM-dd&quot;) Date dateCheck) {
+<span class="nc" id="L34">        return chambreService.isChambreDisponible(idc, dateCheck);</span>
+    }
 
     @GetMapping(&quot;/retrieve-chambre/{chambre-id}&quot;)
     public Chambre retrieveChambre(@PathVariable(&quot;chambre-id&quot;) Long chId) {
-<span class="nc" id="L29">        Chambre chambre = chambreService.retrieveChambre(chId);</span>
-<span class="nc" id="L30">        return chambre;</span>
+<span class="nc" id="L39">        Chambre chambre = chambreService.retrieveChambre(chId);</span>
+<span class="nc" id="L40">        return chambre;</span>
     }
 
     // http://localhost:8089/tpfoyer/chambre/add-chambre
     @PostMapping(&quot;/add-chambre&quot;)
     public Chambre addChambre(@RequestBody Chambre c) {
-<span class="nc" id="L36">        Chambre chambre = chambreService.addChambre(c);</span>
-<span class="nc" id="L37">        return chambre;</span>
+<span class="nc" id="L46">        Chambre chambre = chambreService.addChambre(c);</span>
+<span class="nc" id="L47">        return chambre;</span>
     }
 
     // http://localhost:8089/tpfoyer/chambre/remove-chambre/{chambre-id}
     @DeleteMapping(&quot;/remove-chambre/{chambre-id}&quot;)
     public void removeChambre(@PathVariable(&quot;chambre-id&quot;) Long chId) {
-<span class="nc" id="L43">        chambreService.removeChambre(chId);</span>
-<span class="nc" id="L44">    }</span>
+<span class="nc" id="L53">        chambreService.removeChambre(chId);</span>
+<span class="nc" id="L54">    }</span>
 
     // http://localhost:8089/tpfoyer/chambre/modify-chambre
     @PutMapping(&quot;/modify-chambre&quot;)
     public Chambre modifyChambre(@RequestBody Chambre c) {
-<span class="nc" id="L49">        Chambre chambre = chambreService.modifyChambre(c);</span>
-<span class="nc" id="L50">        return chambre;</span>
+<span class="nc" id="L59">        Chambre chambre = chambreService.modifyChambre(c);</span>
+<span class="nc" id="L60">        return chambre;</span>
     }
 
 
     @GetMapping(&quot;/trouver-chambres-selon-typ/{tc}&quot;)
     public List&lt;Chambre&gt; trouverChSelonTC(@PathVariable(&quot;tc&quot;) TypeChambre tc)
     {
-<span class="nc" id="L57">        return chambreService.recupererChambresSelonTyp(tc);</span>
+<span class="nc" id="L67">        return chambreService.recupererChambresSelonTyp(tc);</span>
     }
 
 
@@ -76,9 +86,17 @@ public class ChambreRestController {
     // http://localhost:8089/tpfoyer/chambre/retrieve-chambre/8
     @GetMapping(&quot;/trouver-chambre-selon-etudiant/{cin}&quot;)
     public Chambre trouverChSelonEt(@PathVariable(&quot;cin&quot;) long cin) {
-<span class="nc" id="L79">        Chambre chambre = chambreService.trouverchambreSelonEtudiant(cin);</span>
-<span class="nc" id="L80">        return chambre;</span>
+<span class="nc" id="L89">        Optional&lt;Chambre&gt; chambreOpt = chambreService.trouverchambreSelonEtudiant(cin);</span>
+
+        // Vérifiez si la chambre est présente
+<span class="nc bnc" id="L92" title="All 2 branches missed.">        if (chambreOpt.isPresent()) {</span>
+<span class="nc" id="L93">            return chambreOpt.get(); // Retourne la chambre</span>
+        } else {
+            // Vous pouvez lancer une exception ou retourner une réponse appropriée
+<span class="nc" id="L96">            throw new ResponseStatusException(HttpStatus.NOT_FOUND, &quot;Chambre non trouvée pour le CIN: &quot; + cin);</span>
+        }
     }
+
 
 
 }

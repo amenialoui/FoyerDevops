@@ -9,6 +9,7 @@ tn\esprit\tpfoyer\service\FoyerServiceImpl.class
 tn\esprit\tpfoyer\service\IBlocService.class
 tn\esprit\tpfoyer\config\ConfigAOP.class
 tn\esprit\tpfoyer\control\ChambreRestController.class
+tn\esprit\tpfoyer\config\OpenApiConfig.class
 tn\esprit\tpfoyer\repository\EtudiantRepository.class
 tn\esprit\tpfoyer\control\ReservationRestController.class
 tn\esprit\tpfoyer\repository\BlocRepository.class

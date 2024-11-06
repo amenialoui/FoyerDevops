@@ -24,7 +24,7 @@ public class ChambreServiceImpl implements IChambreService {
     ChambreRepository chambreRepository;
     // Créer un logger pour la classe
 
-    private static final Logger logger = (Logger) LoggerFactory.getLogger(ChambreServiceImpl.class);
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(ChambreServiceImpl.class);
     @Autowired
     public ChambreServiceImpl(ChambreRepository chambreRepository, ReservationRepository reservationRepository) {
         this.chambreRepository = chambreRepository;
