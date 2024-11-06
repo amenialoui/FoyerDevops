@@ -3,7 +3,9 @@ package tn.esprit.tpfoyer.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import tn.esprit.tpfoyer.entity.Foyer;
 import tn.esprit.tpfoyer.entity.Universite;
+import tn.esprit.tpfoyer.repository.FoyerRepository;
 import tn.esprit.tpfoyer.repository.UniversiteRepository;
 
 import java.util.List;
@@ -13,6 +15,7 @@ import java.util.List;
 public class UniversiteServiceImpl implements IUniversiteService {
 
     UniversiteRepository universiteRepository;
+    FoyerRepository foyerRepository;
 
     public List<Universite> retrieveAllUniversites() {
         return universiteRepository.findAll();
@@ -33,4 +36,23 @@ public class UniversiteServiceImpl implements IUniversiteService {
     public void removeUniversite(Long universiteId) {
         universiteRepository.deleteById(universiteId);
     }
+    public List<Universite> getAllUniversities() {
+        return universiteRepository.findAll();
+    }
+    @Override
+    public Universite affecterFoyerAUniversite(long idFoyer, String nomUniversite) {
+        Foyer foyer = foyerRepository.findById(idFoyer)
+                .orElseThrow(() -> new RuntimeException("Foyer non trouvé"));
+
+        Universite universite = universiteRepository.findFirstByNomUniversite(nomUniversite);
+        if (universite == null) {
+            throw new RuntimeException("Université non trouvée");
+        }
+
+        foyer.setUniversite(universite);
+        foyerRepository.save(foyer);  // Associer et sauvegarder le foyer avec l'université
+
+        return universite;
+    }
+
 }

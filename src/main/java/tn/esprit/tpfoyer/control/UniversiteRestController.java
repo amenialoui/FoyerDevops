@@ -47,4 +47,13 @@ public class UniversiteRestController {
         return universite;
     }
 
+    @GetMapping("/getAllUniversites")
+    public Iterable<Universite> getAllUniversities(){
+        return universiteService.getAllUniversities();
+    }
+    @PutMapping("/affecterFoyer")
+    public Universite affecterFoyerAUniversite(@RequestParam long idFoyer, @RequestParam String nomUniversite) {
+        return universiteService.affecterFoyerAUniversite(idFoyer, nomUniversite);
+    }
+
 }
