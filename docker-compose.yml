@@ -17,7 +17,7 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
 
-  # Spring Boot application service
+
   app:
     build:
       context: .
