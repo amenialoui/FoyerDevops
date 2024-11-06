@@ -1,16 +1,14 @@
 package tn.esprit.spring.services;
 
-import org.aspectj.lang.annotation.Before;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import tn.esprit.tpfoyer.entity.Chambre;
-import tn.esprit.tpfoyer.entity.Reservation;
 import tn.esprit.tpfoyer.entity.TypeChambre;
 import tn.esprit.tpfoyer.repository.ChambreRepository;
-import tn.esprit.tpfoyer.repository.ReservationRepository;
 import tn.esprit.tpfoyer.service.ChambreServiceImpl;
 
 import java.util.*;
@@ -18,7 +16,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class ChambreServiceTest {
+ class ChambreServiceTest {
 
     @Mock
     private ChambreRepository chambreRepository;
@@ -26,13 +24,22 @@ public class ChambreServiceTest {
     @InjectMocks
     private ChambreServiceImpl chambreService;
 
-    @BeforeEach
-    public void setup() {
-        MockitoAnnotations.openMocks(this);
-    }
+     private AutoCloseable closeable;
+
+     @BeforeEach
+     public void setup() {
+         closeable = MockitoAnnotations.openMocks(this);
+     }
+
+     @AfterEach
+     public void tearDown() throws Exception {
+         if (closeable != null) {
+             closeable.close();
+         }
+     }
 
     @Test
-    public void testRetrieveAllChambres() {
+     void testRetrieveAllChambres() {
         // Préparation des données simulées
         Chambre chambre1 = new Chambre();
         Chambre chambre2 = new Chambre();
@@ -50,7 +57,7 @@ public class ChambreServiceTest {
     }
 
     @Test
-    public void testRetrieveChambre() {
+     void testRetrieveChambre() {
         // Préparation des données simulées
         Chambre chambre = new Chambre();
         chambre.setIdChambre(1L);
@@ -68,7 +75,7 @@ public class ChambreServiceTest {
     }
 
     @Test
-    public void testAddChambre() {
+     void testAddChambre() {
         // Préparation des données simulées
         Chambre chambre = new Chambre();
         when(chambreRepository.save(any(Chambre.class))).thenReturn(chambre);
@@ -82,7 +89,7 @@ public class ChambreServiceTest {
     }
 
     @Test
-    public void testModifyChambre() {
+     void testModifyChambre() {
         // Préparation des données simulées
         Chambre chambre = new Chambre();
         when(chambreRepository.save(any(Chambre.class))).thenReturn(chambre);
@@ -96,7 +103,7 @@ public class ChambreServiceTest {
     }
 
     @Test
-    public void testRemoveChambre() {
+     void testRemoveChambre() {
         // Appel de la méthode à tester
         chambreService.removeChambre(1L);
 
@@ -105,7 +112,7 @@ public class ChambreServiceTest {
     }
 
     @Test
-    public void testRecupererChambresSelonTyp() {
+     void testRecupererChambresSelonTyp() {
         // Préparation des données simulées
         TypeChambre typeChambre = TypeChambre.SIMPLE;
         Chambre chambre1 = new Chambre();
@@ -126,7 +133,7 @@ public class ChambreServiceTest {
 
 
     @Test
-    public void testTrouverChambreSelonEtudiant() {
+     void testTrouverChambreSelonEtudiant() {
         long cin = 123456789;
         Chambre chambre = new Chambre(); // Créez une instance de Chambre avec les propriétés nécessaires
         when(chambreRepository.trouverChselonEt(cin)).thenReturn(chambre); // Configurez le mock
@@ -137,7 +144,7 @@ public class ChambreServiceTest {
         assertEquals(chambre, result.get()); // Vérifiez que c'est bien la chambre attendue
     }
     @Test
-    public void testTrouverChambreSelonEtudiant_CINExist() {
+     void testTrouverChambreSelonEtudiant_CINExist() {
         long cin = 123456789;
         Chambre chambre = new Chambre();
         chambre.setIdChambre(1); // Ajoutez un ID pour vérification
@@ -177,7 +184,7 @@ public class ChambreServiceTest {
 
 
     @Test
-    public void testTrouverchambreSelonEtudiant_CINInvalid() {
+     void testTrouverchambreSelonEtudiant_CINInvalid() {
         // Préparation des données simulées pour un CIN non valide
         long invalidCin = -123456L;
 
@@ -190,7 +197,7 @@ public class ChambreServiceTest {
         assertEquals("CIN invalide", exception.getMessage());
     }
     @Test
-    public void testTrouverchambreSelonEtudiant_CINZero() {
+     void testTrouverchambreSelonEtudiant_CINZero() {
         // Tester avec un CIN égal à zéro
         long zeroCin = 0L;
 
@@ -204,7 +211,7 @@ public class ChambreServiceTest {
 /////////////////////////////////////////////////////////////////////////////////////
 
         @Test
-        public void testChambreIntrouvable() {
+         void testChambreIntrouvable() {
             // Arrange
             long idChambre = 1L;
             Date dateCheck = new Date();
