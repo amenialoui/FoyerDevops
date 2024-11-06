@@ -29,6 +29,10 @@
                     <groupId>java.util</groupId>
                     <artifactId>logging</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -43,13 +47,8 @@
         </dependency>
 
         <!-- Logback Classic (Logback implementation of SLF4J) -->
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.2.6</version>
-
-        </dependency>
    
+
 
         <dependency>
             <groupId>com.mysql</groupId>
