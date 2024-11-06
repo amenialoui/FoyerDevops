@@ -25,7 +25,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, String
     List<Reservation> findAllByAnneeUniversitaireBeforeAndEstValide(Date d, boolean b );
 
     // Méthode fictive pour un test qui retourne une liste vide
-    public static List<Reservation> findByChambreIdChambre(long idChambre) {
+     static List<Reservation> findByChambreIdChambre(long id) {
         return Collections.emptyList(); // Retourne une liste vide
     }
 

@@ -84,6 +84,12 @@
         </dependency>
 
 
+        <!-- Logback Classic (pour l'implémentation de SLF4J) -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.4.12</version>
+        </dependency>
 
 
         <!-- Mockito -->
