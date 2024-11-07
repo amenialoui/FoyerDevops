@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="tn.esprit.tpfoyer.FoyerServiceImplJUnitTest" time="7.959" tests="6" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="tn.esprit.tpfoyer.FoyerServiceImplJUnitTest" time="8.122" tests="6" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -16,7 +16,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="FR"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-17\bin"/>
-    <property name="sun.java.command" value="C:\Users\Aroua-PC\AppData\Local\Temp\surefire18121250765259173174\surefirebooter-20241107175048499_3.jar C:\Users\Aroua-PC\AppData\Local\Temp\surefire18121250765259173174 2024-11-07T17-50-48_345-jvmRun1 surefire-20241107175048499_1tmp surefire_0-20241107175048499_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\Aroua-PC\AppData\Local\Temp\surefire3389475397442039379\surefirebooter-20241107181651764_3.jar C:\Users\Aroua-PC\AppData\Local\Temp\surefire3389475397442039379 2024-11-07T18-16-51_581-jvmRun1 surefire-20241107181651764_1tmp surefire_0-20241107181651764_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\Aroua-PC\Desktop\devops\target\test-classes;C:\Users\Aroua-PC\Desktop\devops\target\classes;C:\Users\Aroua-PC\.m2\repository\org\springframework\boot\spring-boot-starter-data-jpa\3.3.4\spring-boot-starter-data-jpa-3.3.4.jar;C:\Users\Aroua-PC\.m2\repository\org\springframework\boot\spring-boot-starter-aop\3.3.4\spring-boot-starter-aop-3.3.4.jar;C:\Users\Aroua-PC\.m2\repository\org\springframework\spring-aop\6.1.13\spring-aop-6.1.13.jar;C:\Users\Aroua-PC\.m2\repository\org\aspectj\aspectjweaver\1.9.22.1\aspectjweaver-1.9.22.1.jar;C:\Users\Aroua-PC\.m2\repository\org\springframework\boot\spring-boot-starter-jdbc\3.3.4\spring-boot-starter-jdbc-3.3.4.jar;C:\Users\Aroua-PC\.m2\repository\com\zaxxer\HikariCP\5.1.0\HikariCP-5.1.0.jar;C:\Users\Aroua-PC\.m2\repository\org\springframework\spring-jdbc\6.1.13\spring-jdbc-6.1.13.jar;C:\Users\Aroua-PC\.m2\repository\org\hibernate\orm\hibernate-core\6.5.3.Final\hibernate-core-6.5.3.Final.jar;C:\Users\Aroua-PC\.m2\repository\jakarta\persistence\jakarta.persistence-api\3.1.0\jakarta.persistence-api-3.1.0.jar;C:\Users\Aroua-PC\.m2\repository\jakarta\transaction\jakarta.transaction-api\2.0.1\jakarta.transaction-api-2.0.1.jar;C:\Users\Aroua-PC\.m2\repository\org\jboss\logging\jboss-logging\3.5.3.Final\jboss-logging-3.5.3.Final.jar;C:\Users\Aroua-PC\.m2\repository\org\hibernate\common\hibernate-commons-annotations\6.0.6.Final\hibernate-commons-annotations-6.0.6.Final.jar;C:\Users\Aroua-PC\.m2\repository\io\smallrye\jandex\3.1.2\jandex-3.1.2.jar;C:\Users\Aroua-PC\.m2\repository\com\fasterxml\classmate\1.7.0\classmate-1.7.0.jar;C:\Users\Aroua-PC\.m2\repository\net\bytebuddy\byte-buddy\1.14.19\byte-buddy-1.14.19.jar;C:\Users\Aroua-PC\.m2\repository\org\glassfish\jaxb\jaxb-runtime\4.0.5\jaxb-runtime-4.0.5.jar;C:\Users\Aroua-PC\.m2\repository\org\glassfish\jaxb\jaxb-core\4.0.5\jaxb-core-4.0.5.jar;C:\Users\Aroua-PC\.m2\repository\org\eclipse\angus\angus-activation\2.0.2\angus-activation-2.0.2.jar;C:\Users\Aroua-PC\.m2\repository\org\glassfish\jaxb\txw2\4.0.5\txw2-4.0.5.jar;C:\Users\Aroua-PC\.m2\repository\com\sun\istack\istack-commons-runtime\4.1.2\istack-commons-runtime-4.1.2.jar;C:\Users\Aroua-PC\.m2\repository\jakarta\inject\jakarta.inject-api\2.0.1\jakarta.inject-api-2.0.1.jar;C:\Users\Aroua-PC\.m2\repository\org\antlr\antlr4-runtime\4.13.0\antlr4-runtime-4.13.0.jar;C:\Users\Aroua-PC\.m2\repository\org\springframework\data\spring-data-jpa\3.3.4\spring-data-jpa-3.3.4.jar;C:\Users\Aroua-PC\.m2\repository\org\springframework\data\spring-data-commons\3.3.4\spring-data-commons-3.3.4.jar;C:\Users\Aroua-PC\.m2\repository\org\springframework\spring-orm\6.1.13\spring-orm-6.1.13.jar;C:\Users\Aroua-PC\.m2\repository\org\springframework\spring-context\6.1.13\spring-context-6.1.13.jar;C:\Users\Aroua-PC\.m2\repository\org\springframework\spring-tx\6.1.13\spring-tx-6.1.13.jar;C:\Users\Aroua-PC\.m2\repository\org\springframework\spring-beans\6.1.13\spring-beans-6.1.13.jar;C:\Users\Aroua-PC\.m2\repository\jakarta\annotation\jakarta.annotation-api\2.1.1\jakarta.annotation-api-2.1.1.jar;C:\Users\Aroua-PC\.m2\repository\org\slf4j\slf4j-api\2.0.16\slf4j-api-2.0.16.jar;C:\Users\Aroua-PC\.m2\repository\org\springframework\spring-aspects\6.1.13\spring-aspects-6.1.13.jar;C:\Users\Aroua-PC\.m2\repository\org\springframework\boot\spring-boot-starter-web\3.3.4\spring-boot-starter-web-3.3.4.jar;C:\Users\Aroua-PC\.m2\repository\org\springframework\boot\spring-boot-starter\3.3.4\spring-boot-starter-3.3.4.jar;C:\Users\Aroua-PC\.m2\repository\org\springframework\boot\spring-boot\3.3.4\spring-boot-3.3.4.jar;C:\Users\Aroua-PC\.m2\repository\org\springframework\boot\spring-boot-autoconfigure\3.3.4\spring-boot-autoconfigure-3.3.4.jar;C:\Users\Aroua-PC\.m2\repository\org\springframework\boot\spring-boot-starter-logging\3.3.4\spring-boot-starter-logging-3.3.4.jar;C:\Users\Aroua-PC\.m2\repository\ch\qos\logback\logback-classic\1.5.8\logback-classic-1.5.8.jar;C:\Users\Aroua-PC\.m2\repository\ch\qos\logback\logback-core\1.5.8\logback-core-1.5.8.jar;C:\Users\Aroua-PC\.m2\repository\org\apache\logging\log4j\log4j-to-slf4j\2.23.1\log4j-to-slf4j-2.23.1.jar;C:\Users\Aroua-PC\.m2\repository\org\apache\logging\log4j\log4j-api\2.23.1\log4j-api-2.23.1.jar;C:\Users\Aroua-PC\.m2\repository\org\slf4j\jul-to-slf4j\2.0.16\jul-to-slf4j-2.0.16.jar;C:\Users\Aroua-PC\.m2\repository\org\yaml\snakeyaml\2.2\snakeyaml-2.2.jar;C:\Users\Aroua-PC\.m2\repository\org\springframework\boot\spring-boot-starter-json\3.3.4\spring-boot-starter-json-3.3.4.jar;C:\Users\Aroua-PC\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.17.2\jackson-databind-2.17.2.jar;C:\Users\Aroua-PC\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.17.2\jackson-annotations-2.17.2.jar;C:\Users\Aroua-PC\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.17.2\jackson-core-2.17.2.jar;C:\Users\Aroua-PC\.m2\repository\com\fasterxml\jackson\datatype\jackson-datatype-jdk8\2.17.2\jackson-datatype-jdk8-2.17.2.jar;C:\Users\Aroua-PC\.m2\repository\com\fasterxml\jackson\datatype\jackson-datatype-jsr310\2.17.2\jackson-datatype-jsr310-2.17.2.jar;C:\Users\Aroua-PC\.m2\repository\com\fasterxml\jackson\module\jackson-module-parameter-names\2.17.2\jackson-module-parameter-names-2.17.2.jar;C:\Users\Aroua-PC\.m2\repository\org\springframework\boot\spring-boot-starter-tomcat\3.3.4\spring-boot-starter-tomcat-3.3.4.jar;C:\Users\Aroua-PC\.m2\repository\org\apache\tomcat\embed\tomcat-embed-core\10.1.30\tomcat-embed-core-10.1.30.jar;C:\Users\Aroua-PC\.m2\repository\org\apache\tomcat\embed\tomcat-embed-el\10.1.30\tomcat-embed-el-10.1.30.jar;C:\Users\Aroua-PC\.m2\repository\org\apache\tomcat\embed\tomcat-embed-websocket\10.1.30\tomcat-embed-websocket-10.1.30.jar;C:\Users\Aroua-PC\.m2\repository\org\springframework\spring-web\6.1.13\spring-web-6.1.13.jar;C:\Users\Aroua-PC\.m2\repository\io\micrometer\micrometer-observation\1.13.4\micrometer-observation-1.13.4.jar;C:\Users\Aroua-PC\.m2\repository\io\micrometer\micrometer-commons\1.13.4\micrometer-commons-1.13.4.jar;C:\Users\Aroua-PC\.m2\repository\org\springframework\spring-webmvc\6.1.13\spring-webmvc-6.1.13.jar;C:\Users\Aroua-PC\.m2\repository\org\springframework\spring-expression\6.1.13\spring-expression-6.1.13.jar;C:\Users\Aroua-PC\.m2\repository\com\mysql\mysql-connector-j\8.0.33\mysql-connector-j-8.0.33.jar;C:\Users\Aroua-PC\.m2\repository\org\projectlombok\lombok\1.18.34\lombok-1.18.34.jar;C:\Users\Aroua-PC\.m2\repository\org\springframework\boot\spring-boot-starter-test\3.3.4\spring-boot-starter-test-3.3.4.jar;C:\Users\Aroua-PC\.m2\repository\org\springframework\boot\spring-boot-test\3.3.4\spring-boot-test-3.3.4.jar;C:\Users\Aroua-PC\.m2\repository\org\springframework\boot\spring-boot-test-autoconfigure\3.3.4\spring-boot-test-autoconfigure-3.3.4.jar;C:\Users\Aroua-PC\.m2\repository\com\jayway\jsonpath\json-path\2.9.0\json-path-2.9.0.jar;C:\Users\Aroua-PC\.m2\repository\jakarta\xml\bind\jakarta.xml.bind-api\4.0.2\jakarta.xml.bind-api-4.0.2.jar;C:\Users\Aroua-PC\.m2\repository\jakarta\activation\jakarta.activation-api\2.1.3\jakarta.activation-api-2.1.3.jar;C:\Users\Aroua-PC\.m2\repository\net\minidev\json-smart\2.5.1\json-smart-2.5.1.jar;C:\Users\Aroua-PC\.m2\repository\net\minidev\accessors-smart\2.5.1\accessors-smart-2.5.1.jar;C:\Users\Aroua-PC\.m2\repository\org\ow2\asm\asm\9.6\asm-9.6.jar;C:\Users\Aroua-PC\.m2\repository\org\assertj\assertj-core\3.25.3\assertj-core-3.25.3.jar;C:\Users\Aroua-PC\.m2\repository\org\awaitility\awaitility\4.2.2\awaitility-4.2.2.jar;C:\Users\Aroua-PC\.m2\repository\org\hamcrest\hamcrest\2.2\hamcrest-2.2.jar;C:\Users\Aroua-PC\.m2\repository\org\junit\jupiter\junit-jupiter\5.10.3\junit-jupiter-5.10.3.jar;C:\Users\Aroua-PC\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.3\junit-jupiter-params-5.10.3.jar;C:\Users\Aroua-PC\.m2\repository\org\mockito\mockito-core\5.11.0\mockito-core-5.11.0.jar;C:\Users\Aroua-PC\.m2\repository\net\bytebuddy\byte-buddy-agent\1.14.19\byte-buddy-agent-1.14.19.jar;C:\Users\Aroua-PC\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\Aroua-PC\.m2\repository\org\mockito\mockito-junit-jupiter\5.11.0\mockito-junit-jupiter-5.11.0.jar;C:\Users\Aroua-PC\.m2\repository\org\skyscreamer\jsonassert\1.5.3\jsonassert-1.5.3.jar;C:\Users\Aroua-PC\.m2\repository\com\vaadin\external\google\android-json\0.0.20131108.vaadin1\android-json-0.0.20131108.vaadin1.jar;C:\Users\Aroua-PC\.m2\repository\org\springframework\spring-core\6.1.13\spring-core-6.1.13.jar;C:\Users\Aroua-PC\.m2\repository\org\springframework\spring-jcl\6.1.13\spring-jcl-6.1.13.jar;C:\Users\Aroua-PC\.m2\repository\org\springframework\spring-test\6.1.13\spring-test-6.1.13.jar;C:\Users\Aroua-PC\.m2\repository\org\xmlunit\xmlunit-core\2.9.1\xmlunit-core-2.9.1.jar;C:\Users\Aroua-PC\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.3\junit-jupiter-engine-5.10.3.jar;C:\Users\Aroua-PC\.m2\repository\org\junit\platform\junit-platform-engine\1.10.3\junit-platform-engine-1.10.3.jar;C:\Users\Aroua-PC\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\Aroua-PC\.m2\repository\org\junit\platform\junit-platform-commons\1.10.3\junit-platform-commons-1.10.3.jar;C:\Users\Aroua-PC\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.3\junit-jupiter-api-5.10.3.jar;C:\Users\Aroua-PC\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\Aroua-PC\.m2\repository\org\springdoc\springdoc-openapi-starter-webmvc-ui\2.1.0\springdoc-openapi-starter-webmvc-ui-2.1.0.jar;C:\Users\Aroua-PC\.m2\repository\org\springdoc\springdoc-openapi-starter-webmvc-api\2.1.0\springdoc-openapi-starter-webmvc-api-2.1.0.jar;C:\Users\Aroua-PC\.m2\repository\org\springdoc\springdoc-openapi-starter-common\2.1.0\springdoc-openapi-starter-common-2.1.0.jar;C:\Users\Aroua-PC\.m2\repository\io\swagger\core\v3\swagger-core-jakarta\2.2.9\swagger-core-jakarta-2.2.9.jar;C:\Users\Aroua-PC\.m2\repository\org\apache\commons\commons-lang3\3.14.0\commons-lang3-3.14.0.jar;C:\Users\Aroua-PC\.m2\repository\io\swagger\core\v3\swagger-annotations-jakarta\2.2.9\swagger-annotations-jakarta-2.2.9.jar;C:\Users\Aroua-PC\.m2\repository\io\swagger\core\v3\swagger-models-jakarta\2.2.9\swagger-models-jakarta-2.2.9.jar;C:\Users\Aroua-PC\.m2\repository\jakarta\validation\jakarta.validation-api\3.0.2\jakarta.validation-api-3.0.2.jar;C:\Users\Aroua-PC\.m2\repository\com\fasterxml\jackson\dataformat\jackson-dataformat-yaml\2.17.2\jackson-dataformat-yaml-2.17.2.jar;C:\Users\Aroua-PC\.m2\repository\org\webjars\swagger-ui\4.18.2\swagger-ui-4.18.2.jar;C:\Users\Aroua-PC\.m2\repository\com\h2database\h2\2.2.224\h2-2.2.224.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -33,7 +33,7 @@
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="FILE_LOG_CHARSET" value="windows-1252"/>
     <property name="java.awt.headless" value="true"/>
-    <property name="surefire.real.class.path" value="C:\Users\Aroua-PC\AppData\Local\Temp\surefire18121250765259173174\surefirebooter-20241107175048499_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\Aroua-PC\AppData\Local\Temp\surefire3389475397442039379\surefirebooter-20241107181651764_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="17.0.8+9-LTS-211"/>
@@ -52,7 +52,7 @@
     <property name="user.dir" value="C:\Users\Aroua-PC\Desktop\devops"/>
     <property name="os.arch" value="amd64"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
-    <property name="PID" value="19176"/>
+    <property name="PID" value="8584"/>
     <property name="sun.os.patch.level" value=""/>
     <property name="CONSOLE_LOG_CHARSET" value="windows-1252"/>
     <property name="native.encoding" value="Cp1252"/>
@@ -63,9 +63,9 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="testModifyFoyer" classname="tn.esprit.tpfoyer.FoyerServiceImplJUnitTest" time="0.598">
-    <system-out><![CDATA[17:50:49.847 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [tn.esprit.tpfoyer.FoyerServiceImplJUnitTest]: FoyerServiceImplJUnitTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-17:50:49.988 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration tn.esprit.tpfoyer.TpFoyerApplication for test class tn.esprit.tpfoyer.FoyerServiceImplJUnitTest
+  <testcase name="testModifyFoyer" classname="tn.esprit.tpfoyer.FoyerServiceImplJUnitTest" time="0.664">
+    <system-out><![CDATA[18:16:53.080 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [tn.esprit.tpfoyer.FoyerServiceImplJUnitTest]: FoyerServiceImplJUnitTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+18:16:53.222 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration tn.esprit.tpfoyer.TpFoyerApplication for test class tn.esprit.tpfoyer.FoyerServiceImplJUnitTest
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -76,18 +76,18 @@
 
  :: Spring Boot ::                (v3.3.4)
 
-2024-11-07T17:50:50.534+01:00  INFO 19176 --- [           main] t.e.tpfoyer.FoyerServiceImplJUnitTest    : Starting FoyerServiceImplJUnitTest using Java 17.0.8 with PID 19176 (started by Aroua-PC in C:\Users\Aroua-PC\Desktop\devops)
-2024-11-07T17:50:50.536+01:00  INFO 19176 --- [           main] t.e.tpfoyer.FoyerServiceImplJUnitTest    : The following 1 profile is active: "test"
-2024-11-07T17:50:51.382+01:00  INFO 19176 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-11-07T17:50:51.456+01:00  INFO 19176 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 65 ms. Found 6 JPA repository interfaces.
-2024-11-07T17:50:52.126+01:00  INFO 19176 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-11-07T17:50:52.229+01:00  INFO 19176 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
-2024-11-07T17:50:52.288+01:00  INFO 19176 --- [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2024-11-07T17:50:52.763+01:00  INFO 19176 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2024-11-07T17:50:52.806+01:00  INFO 19176 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2024-11-07T17:50:53.152+01:00  INFO 19176 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:db user=SA
-2024-11-07T17:50:53.155+01:00  INFO 19176 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2024-11-07T17:50:54.503+01:00  INFO 19176 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-11-07T18:16:53.815+01:00  INFO 8584 --- [           main] t.e.tpfoyer.FoyerServiceImplJUnitTest    : Starting FoyerServiceImplJUnitTest using Java 17.0.8 with PID 8584 (started by Aroua-PC in C:\Users\Aroua-PC\Desktop\devops)
+2024-11-07T18:16:53.817+01:00  INFO 8584 --- [           main] t.e.tpfoyer.FoyerServiceImplJUnitTest    : The following 1 profile is active: "test"
+2024-11-07T18:16:54.698+01:00  INFO 8584 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-11-07T18:16:54.772+01:00  INFO 8584 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 65 ms. Found 6 JPA repository interfaces.
+2024-11-07T18:16:55.496+01:00  INFO 8584 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-11-07T18:16:55.586+01:00  INFO 8584 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2024-11-07T18:16:55.635+01:00  INFO 8584 --- [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-11-07T18:16:56.144+01:00  INFO 8584 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-11-07T18:16:56.191+01:00  INFO 8584 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-11-07T18:16:56.518+01:00  INFO 8584 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:db user=SA
+2024-11-07T18:16:56.521+01:00  INFO 8584 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-11-07T18:16:57.817+01:00  INFO 8584 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 Hibernate: drop table if exists bloc cascade 
 Hibernate: drop table if exists chambre cascade 
 Hibernate: drop table if exists chambre_reservations cascade 
@@ -111,54 +111,54 @@ Hibernate: alter table if exists chambre_reservations add constraint FKqy33yndad
 Hibernate: alter table if exists reservation_etudiants add constraint FK53dc9htdv7ne29h80i08urcqv foreign key (etudiants_id_etudiant) references etudiant
 Hibernate: alter table if exists reservation_etudiants add constraint FKr9q9iw0kkhggmvjpnlv00h385 foreign key (reservations_id_reservation) references reservation
 Hibernate: alter table if exists universite add constraint FK2b4r95emuv9ea1064hjqxpqq foreign key (foyer_id_foyer) references foyer
-2024-11-07T17:50:54.591+01:00  INFO 19176 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-11-07T17:50:55.242+01:00  INFO 19176 --- [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
-2024-11-07T17:50:56.116+01:00  WARN 19176 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2024-11-07T17:50:56.874+01:00  INFO 19176 --- [           main] t.e.tpfoyer.FoyerServiceImplJUnitTest    : Started FoyerServiceImplJUnitTest in 6.682 seconds (process running for 8.098)
-2024-11-07T17:50:56.885+01:00  INFO 19176 --- [   scheduling-1] tn.esprit.tpfoyer.config.ConfigAOP       : In Metod AOP : retrieveAllBlocs
+2024-11-07T18:16:57.894+01:00  INFO 8584 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-11-07T18:16:58.526+01:00  INFO 8584 --- [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-11-07T18:16:59.379+01:00  WARN 8584 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-11-07T18:17:00.196+01:00  INFO 8584 --- [           main] t.e.tpfoyer.FoyerServiceImplJUnitTest    : Started FoyerServiceImplJUnitTest in 6.77 seconds (process running for 8.082)
+2024-11-07T18:17:00.205+01:00  INFO 8584 --- [   scheduling-1] tn.esprit.tpfoyer.config.ConfigAOP       : In Metod AOP : retrieveAllBlocs
 Hibernate: select b1_0.id_bloc,b1_0.capacite_bloc,b1_0.foyer_id_foyer,b1_0.nom_bloc from bloc b1_0
-2024-11-07T17:50:57.050+01:00  INFO 19176 --- [   scheduling-1] t.e.tpfoyer.service.BlocServiceImpl      : taille totale : 0
-2024-11-07T17:50:57.050+01:00  INFO 19176 --- [   scheduling-1] tn.esprit.tpfoyer.config.ConfigAOP       : Methodexecutiontime: 166 milliseconds.
+2024-11-07T18:17:00.364+01:00  INFO 8584 --- [   scheduling-1] t.e.tpfoyer.service.BlocServiceImpl      : taille totale : 0
+2024-11-07T18:17:00.365+01:00  INFO 8584 --- [   scheduling-1] tn.esprit.tpfoyer.config.ConfigAOP       : Methodexecutiontime: 160 milliseconds.
 Hibernate: select f1_0.id_foyer,f1_0.capacite_foyer,f1_0.nom_foyer from foyer f1_0
 Hibernate: insert into foyer (capacite_foyer,nom_foyer,id_foyer) values (?,?,default)
-2024-11-07T17:50:57.475+01:00  INFO 19176 --- [           main] tn.esprit.tpfoyer.config.ConfigAOP       : In Metod AOP : modifyFoyer
-2024-11-07T17:50:57.478+01:00  INFO 19176 --- [           main] tn.esprit.tpfoyer.config.ConfigAOP       : Methodexecutiontime: 3 milliseconds.
+2024-11-07T18:17:00.864+01:00  INFO 8584 --- [           main] tn.esprit.tpfoyer.config.ConfigAOP       : In Metod AOP : modifyFoyer
+2024-11-07T18:17:00.866+01:00  INFO 8584 --- [           main] tn.esprit.tpfoyer.config.ConfigAOP       : Methodexecutiontime: 2 milliseconds.
 ]]></system-out>
   </testcase>
-  <testcase name="testRemoveFoyer" classname="tn.esprit.tpfoyer.FoyerServiceImplJUnitTest" time="0.019">
+  <testcase name="testRemoveFoyer" classname="tn.esprit.tpfoyer.FoyerServiceImplJUnitTest" time="0.022">
     <system-out><![CDATA[Hibernate: select f1_0.id_foyer,f1_0.capacite_foyer,f1_0.nom_foyer from foyer f1_0
 Hibernate: insert into foyer (capacite_foyer,nom_foyer,id_foyer) values (?,?,default)
-2024-11-07T17:50:57.500+01:00  INFO 19176 --- [           main] tn.esprit.tpfoyer.config.ConfigAOP       : In Metod AOP : removeFoyer
-2024-11-07T17:50:57.511+01:00  INFO 19176 --- [           main] tn.esprit.tpfoyer.config.ConfigAOP       : Methodexecutiontime: 11 milliseconds.
+2024-11-07T18:17:00.891+01:00  INFO 8584 --- [           main] tn.esprit.tpfoyer.config.ConfigAOP       : In Metod AOP : removeFoyer
+2024-11-07T18:17:00.904+01:00  INFO 8584 --- [           main] tn.esprit.tpfoyer.config.ConfigAOP       : Methodexecutiontime: 13 milliseconds.
 ]]></system-out>
   </testcase>
-  <testcase name="testRetrieveFoyer" classname="tn.esprit.tpfoyer.FoyerServiceImplJUnitTest" time="0.011">
+  <testcase name="testRetrieveFoyer" classname="tn.esprit.tpfoyer.FoyerServiceImplJUnitTest" time="0.007">
     <system-out><![CDATA[Hibernate: select f1_0.id_foyer,f1_0.capacite_foyer,f1_0.nom_foyer from foyer f1_0
 Hibernate: insert into foyer (capacite_foyer,nom_foyer,id_foyer) values (?,?,default)
-2024-11-07T17:50:57.524+01:00  INFO 19176 --- [           main] tn.esprit.tpfoyer.config.ConfigAOP       : In Metod AOP : retrieveFoyer
-2024-11-07T17:50:57.525+01:00  INFO 19176 --- [           main] tn.esprit.tpfoyer.config.ConfigAOP       : Methodexecutiontime: 1 milliseconds.
+2024-11-07T18:17:00.914+01:00  INFO 8584 --- [           main] tn.esprit.tpfoyer.config.ConfigAOP       : In Metod AOP : retrieveFoyer
+2024-11-07T18:17:00.915+01:00  INFO 8584 --- [           main] tn.esprit.tpfoyer.config.ConfigAOP       : Methodexecutiontime: 1 milliseconds.
 ]]></system-out>
   </testcase>
-  <testcase name="testRetrieveAllFoyers" classname="tn.esprit.tpfoyer.FoyerServiceImplJUnitTest" time="0.022">
+  <testcase name="testRetrieveAllFoyers" classname="tn.esprit.tpfoyer.FoyerServiceImplJUnitTest" time="0.021">
     <system-out><![CDATA[Hibernate: select f1_0.id_foyer,f1_0.capacite_foyer,f1_0.nom_foyer from foyer f1_0
 Hibernate: insert into foyer (capacite_foyer,nom_foyer,id_foyer) values (?,?,default)
 Hibernate: insert into foyer (capacite_foyer,nom_foyer,id_foyer) values (?,?,default)
-2024-11-07T17:50:57.535+01:00  INFO 19176 --- [           main] tn.esprit.tpfoyer.config.ConfigAOP       : In Metod AOP : retrieveAllFoyers
+2024-11-07T18:17:00.922+01:00  INFO 8584 --- [           main] tn.esprit.tpfoyer.config.ConfigAOP       : In Metod AOP : retrieveAllFoyers
 Hibernate: select f1_0.id_foyer,f1_0.capacite_foyer,f1_0.nom_foyer from foyer f1_0
-2024-11-07T17:50:57.548+01:00  INFO 19176 --- [           main] tn.esprit.tpfoyer.config.ConfigAOP       : Methodexecutiontime: 13 milliseconds.
+2024-11-07T18:17:00.936+01:00  INFO 8584 --- [           main] tn.esprit.tpfoyer.config.ConfigAOP       : Methodexecutiontime: 14 milliseconds.
 ]]></system-out>
   </testcase>
   <testcase name="testAddFoyer" classname="tn.esprit.tpfoyer.FoyerServiceImplJUnitTest" time="0.006">
     <system-out><![CDATA[Hibernate: select f1_0.id_foyer,f1_0.capacite_foyer,f1_0.nom_foyer from foyer f1_0
-2024-11-07T17:50:57.553+01:00  INFO 19176 --- [           main] tn.esprit.tpfoyer.config.ConfigAOP       : In Metod AOP : addFoyer
+2024-11-07T18:17:00.942+01:00  INFO 8584 --- [           main] tn.esprit.tpfoyer.config.ConfigAOP       : In Metod AOP : addFoyer
 Hibernate: insert into foyer (capacite_foyer,nom_foyer,id_foyer) values (?,?,default)
-2024-11-07T17:50:57.555+01:00  INFO 19176 --- [           main] tn.esprit.tpfoyer.config.ConfigAOP       : Execution Réussie ! 
-2024-11-07T17:50:57.556+01:00  INFO 19176 --- [           main] tn.esprit.tpfoyer.config.ConfigAOP       : Methodexecutiontime: 2 milliseconds.
+2024-11-07T18:17:00.943+01:00  INFO 8584 --- [           main] tn.esprit.tpfoyer.config.ConfigAOP       : Execution Réussie ! 
+2024-11-07T18:17:00.944+01:00  INFO 8584 --- [           main] tn.esprit.tpfoyer.config.ConfigAOP       : Methodexecutiontime: 2 milliseconds.
 ]]></system-out>
   </testcase>
-  <testcase name="testRetrieveFoyer_notFound" classname="tn.esprit.tpfoyer.FoyerServiceImplJUnitTest" time="0.011">
+  <testcase name="testRetrieveFoyer_notFound" classname="tn.esprit.tpfoyer.FoyerServiceImplJUnitTest" time="0.013">
     <system-out><![CDATA[Hibernate: select f1_0.id_foyer,f1_0.capacite_foyer,f1_0.nom_foyer from foyer f1_0
-2024-11-07T17:50:57.562+01:00  INFO 19176 --- [           main] tn.esprit.tpfoyer.config.ConfigAOP       : In Metod AOP : retrieveFoyer
+2024-11-07T18:17:00.950+01:00  INFO 8584 --- [           main] tn.esprit.tpfoyer.config.ConfigAOP       : In Metod AOP : retrieveFoyer
 Hibernate: select f1_0.id_foyer,f1_0.capacite_foyer,f1_0.nom_foyer,u1_0.id_universite,u1_0.adresse,u1_0.nom_universite from foyer f1_0 left join universite u1_0 on f1_0.id_foyer=u1_0.foyer_id_foyer where f1_0.id_foyer=?
 ]]></system-out>
   </testcase>
