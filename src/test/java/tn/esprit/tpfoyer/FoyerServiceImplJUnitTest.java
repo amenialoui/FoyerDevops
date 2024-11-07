@@ -31,7 +31,7 @@ class FoyerServiceImplJUnitTest {
     }
 
     @Test
-     void testRetrieveAllFoyers() {
+    void testRetrieveAllFoyers() {
         // Prepare test data
         Foyer foyer1 = new Foyer();
         foyer1.setNomFoyer("Foyer1");
@@ -51,7 +51,7 @@ class FoyerServiceImplJUnitTest {
     }
 
     @Test
-     void testRetrieveFoyer() {
+    void testRetrieveFoyer() {
         Foyer foyer = new Foyer();
         foyer.setNomFoyer("FoyerTest");
         foyer.setCapaciteFoyer(150L);
@@ -61,18 +61,17 @@ class FoyerServiceImplJUnitTest {
         assertEquals(savedFoyer.getIdFoyer(), result.getIdFoyer());
         assertEquals("FoyerTest", result.getNomFoyer());
     }
+
     @Test
     void testRetrieveFoyer_notFound() {
         Long invalidId = 999L; // An ID that doesn't exist
 
         // Assert that the method throws an exception for an invalid ID
-        assertThrows(IllegalArgumentException.class, () -> {
-            foyerService.retrieveFoyer(invalidId);
-        });
+        assertThrows(IllegalArgumentException.class, () -> foyerService.retrieveFoyer(invalidId));
     }
 
     @Test
-     void testAddFoyer() {
+    void testAddFoyer() {
         Foyer foyer = new Foyer();
         foyer.setNomFoyer("NewFoyer");
         foyer.setCapaciteFoyer(300L);
@@ -81,7 +80,7 @@ class FoyerServiceImplJUnitTest {
     }
 
     @Test
-     void testModifyFoyer() {
+    void testModifyFoyer() {
         Foyer foyer = new Foyer();
         foyer.setNomFoyer("InitialName");
         foyer.setCapaciteFoyer(250L);
@@ -93,7 +92,7 @@ class FoyerServiceImplJUnitTest {
     }
 
     @Test
-     void testRemoveFoyer() {
+    void testRemoveFoyer() {
         Foyer foyer = new Foyer();
         foyer.setNomFoyer("FoyerToDelete");
         foyer.setCapaciteFoyer(400L);
