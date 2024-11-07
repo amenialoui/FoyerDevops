@@ -79,9 +79,7 @@ class FoyerServiceImplMockitoTest {
         when(foyerRepository.findById(foyerId)).thenReturn(Optional.empty());
 
         // Executing the service method and asserting the exception
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            foyerService.retrieveFoyer(foyerId);
-        });
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> foyerService.retrieveFoyer(foyerId));
 
         assertEquals("Foyer not found with ID: " + foyerId, exception.getMessage());
         verify(foyerRepository, times(1)).findById(foyerId);
