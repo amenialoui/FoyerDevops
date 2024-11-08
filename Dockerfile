@@ -1,5 +1,5 @@
 # Use the OpenJDK 17 image as the base image
-FROM openjdk:17-jre-slim
+FROM openjdk:17
 
 # Expose the port on which your Java application listens
 EXPOSE 8089
