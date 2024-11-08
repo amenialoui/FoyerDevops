@@ -11,7 +11,7 @@ services:
       - mynetwork
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: db
+      MYSQL_DATABASE: devops
     ports:
       - "3306:3306"
     volumes:
@@ -28,7 +28,7 @@ services:
     depends_on:
       - mysql
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/db?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/devops?createDatabaseIfNotExist=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
       MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: '*'

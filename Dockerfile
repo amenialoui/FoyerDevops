@@ -1,12 +1,17 @@
-# Utilisez l'image OpenJDK 17 comme image de base
-FROM openjdk:17
+# Use the OpenJDK 17 image as the base image
+FROM openjdk:17-jre-slim
 
-# Exposez le port sur lequel votre application Java écoute
+# Expose the port on which your Java application listens
 EXPOSE 8089
 
-# Définissez le répertoire de travail dans le conteneur
+# Set the working directory in the container
 WORKDIR /app
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} app.jar
-# Commande d'entrée pour exécuter l'application Java
-CMD ["java", "-jar", "app.jar"]
+
+# Argument for the JAR file
+
+
+# Copy the JAR file into the container
+COPY target/tp-foyer-5.0.0.jar /app/tp-foyer-5.0.0.jar
+
+# Entry command to run the Java application
+CMD ["java", "-jar", "tp-foyer-5.0.0.jar"]
