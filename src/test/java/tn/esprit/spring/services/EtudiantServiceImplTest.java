@@ -14,11 +14,10 @@ import tn.esprit.tpfoyer.service.EtudiantServiceImpl;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
- class EtudiantServiceImplTest {
+class EtudiantServiceImplTest {
 
     @Mock
     private EtudiantRepository etudiantRepository;  // Mock de l'interface de dépôt
@@ -56,11 +55,11 @@ import static org.mockito.Mockito.when;
        etudiant1.getReservations().add(reservation1);
 
        // Ajout de l'étudiant à la liste
-       List<Etudiant> etudiants = new ArrayList<>();
-       etudiants.add(etudiant1);
+       List<Etudiant> etudiantList= new ArrayList<>();
+       etudiantList.add(etudiant1);
 
        // Simulation du comportement du mock
-       when(etudiantRepository.findAll()).thenReturn(etudiants);
+       when(etudiantRepository.findAll()).thenReturn(etudiantList);
 
        // Appel de la méthode à tester
        List<Etudiant> result = etudiantService.getEtudiantsAvecReservationValidePourAnneeDonnee(2023);
@@ -110,7 +109,7 @@ import static org.mockito.Mockito.when;
 
        // Vérifications
        Assertions.assertEquals("Inscription réussie pour l'étudiant Dupont Marie", result);
-       Mockito.verify(etudiantRepository).save(Mockito.any(Etudiant.class));
+       verify(etudiantRepository).save(Mockito.any(Etudiant.class));
     }
 
     @Test
@@ -148,5 +147,127 @@ import static org.mockito.Mockito.when;
           etudiantService.inscrireNouvelEtudiant(nom, prenom, cin, dateNaissance);
        });
     }
+
+
+   @Test
+   void testRetrieveEtudiant_Success() {
+      Etudiant etudiant = new Etudiant();
+      when(etudiantRepository.findById(1L)).thenReturn(Optional.of(etudiant));
+
+      Etudiant result = etudiantService.retrieveEtudiant(1L);
+
+      assertNotNull(result);
+      verify(etudiantRepository, times(1)).findById(1L);
+   }
+
+   @Test
+   void testRetrieveEtudiant_NotFound() {
+      when(etudiantRepository.findById(1L)).thenReturn(Optional.empty());
+
+      assertThrows(IllegalArgumentException.class, () -> etudiantService.retrieveEtudiant(1L));
+      verify(etudiantRepository, times(1)).findById(1L);
+   }
+
+   @Test
+   void testRemoveEtudiant() {
+      etudiantService.removeEtudiant(1L);
+      verify(etudiantRepository, times(1)).deleteById(1L);
+   }
+
+   @Test
+   void testUpdateEmailEtudiant_Success() {
+      // Préparation des données
+      long etudiantId = 1L;
+      String nouvelEmail = "new.email@example.com";
+
+      Etudiant etudiant = new Etudiant();
+      etudiant.setIdEtudiant(etudiantId);
+      etudiant.setEmail("old.email@example.com");
+
+      // Définir le comportement du mock
+      when(etudiantRepository.findById(etudiantId)).thenReturn(Optional.of(etudiant));
+      when(etudiantRepository.save(any(Etudiant.class))).thenAnswer(i -> i.getArgument(0));
+
+      // Appel de la méthode à tester
+      Etudiant result = etudiantService.updateEmailEtudiant(etudiantId, nouvelEmail);
+
+      // Vérifications
+      assertNotNull(result);
+      assertEquals(nouvelEmail, result.getEmail());
+      verify(etudiantRepository, times(1)).findById(etudiantId);
+      verify(etudiantRepository, times(1)).save(etudiant);
+   }
+
+   @Test
+   void testUpdateEmailEtudiant_EtudiantNotFound() {
+      // Préparation des données
+      long etudiantId = 2L;
+      String nouvelEmail = "new.email@example.com";
+
+      // Définir le comportement du mock
+      when(etudiantRepository.findById(etudiantId)).thenReturn(Optional.empty());
+
+      // Appel de la méthode à tester et vérification de l'exception
+      Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+         etudiantService.updateEmailEtudiant(etudiantId, nouvelEmail);
+      });
+
+      // Vérification du message d'exception
+      assertEquals("Étudiant introuvable avec l'ID: " + etudiantId, exception.getMessage());
+
+      // Vérification des interactions avec le mock
+      verify(etudiantRepository, times(1)).findById(etudiantId);
+      verify(etudiantRepository, never()).save(any(Etudiant.class));
+   }
+
+   @Test
+   void testGetNombreReservationsParCin_multipleReservations() {
+      // Scénario 1 : Étudiant avec plusieurs réservations
+      long cin = 12345678L;
+      Etudiant etudiant = new Etudiant();
+      etudiant.setCinEtudiant(cin);
+      etudiant.setReservations(new HashSet<>(Arrays.asList(new Reservation(), new Reservation(), new Reservation()))); // 3 réservations
+
+      when(etudiantRepository.findEtudiantByCinEtudiant(cin)).thenReturn(etudiant);
+
+      int result = etudiantService.getNombreReservationsParCin(cin);
+
+      assertEquals(3, result);
+      verify(etudiantRepository, times(1)).findEtudiantByCinEtudiant(cin);
+   }
+
+   @Test
+   void testGetNombreReservationsParCin_noReservations() {
+      // Scénario 2 : Étudiant sans réservations
+      long cin = 87654321L;
+      Etudiant etudiant = new Etudiant();
+      etudiant.setCinEtudiant(cin);
+      etudiant.setReservations(new HashSet<>()); // 0 réservations
+
+      when(etudiantRepository.findEtudiantByCinEtudiant(cin)).thenReturn(etudiant);
+
+      int result = etudiantService.getNombreReservationsParCin(cin);
+
+      assertEquals(0, result);
+      verify(etudiantRepository, times(1)).findEtudiantByCinEtudiant(cin);
+   }
+
+   @Test
+   void testGetNombreReservationsParCin_etudiantNonTrouve() {
+      // Scénario 3 : Étudiant non trouvé avec le CIN donné
+      long cin = 99999999L;
+
+      when(etudiantRepository.findEtudiantByCinEtudiant(cin)).thenReturn(null);
+
+      Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+         etudiantService.getNombreReservationsParCin(cin);
+      });
+
+      assertEquals("Aucun étudiant trouvé avec le CIN: " + cin, exception.getMessage());
+      verify(etudiantRepository, times(1)).findEtudiantByCinEtudiant(cin);
+   }
+
+
+
 }
 

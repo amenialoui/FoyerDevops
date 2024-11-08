@@ -46,10 +46,6 @@ public class EtudiantServiceImpl implements IEtudiantService {
     public void removeEtudiant(Long etudiantId) {
         etudiantRepository.deleteById(etudiantId);
     }
-    public Etudiant recupererEtudiantParCin(long cin)
-    {
-        return etudiantRepository.findEtudiantByCinEtudiant(cin);
-    }
 
 
     public List<Etudiant> getEtudiantsAvecReservationValidePourAnneeDonnee(int annee) {
@@ -70,15 +66,6 @@ public class EtudiantServiceImpl implements IEtudiantService {
         }
 
         return result;
-    }
-
-    public List<Etudiant> findEtudiantsByUniversite(long idUniversite) {
-        Optional<Universite> universiteOpt = universiteRepository.findById(idUniversite);
-
-        if (universiteOpt.isPresent()) {
-            return etudiantRepository.findEtudiantsByUniversite(idUniversite);
-        }
-        return Collections.emptyList(); // Retourner une liste vide si l'université n'existe pas
     }
 
 
@@ -109,6 +96,31 @@ public class EtudiantServiceImpl implements IEtudiantService {
         etudiantRepository.save(etudiant);
 
         return "Inscription réussie pour l'étudiant " + nomEt + " " + prenomEt;
+    }
+
+
+
+    public Etudiant updateEmailEtudiant(Long etudiantId, String nouvelEmail) {
+        Optional<Etudiant> optionalEtudiant = etudiantRepository.findById(etudiantId);
+
+        if (optionalEtudiant.isPresent()) {
+            Etudiant etudiant = optionalEtudiant.get();
+            etudiant.setEmail(nouvelEmail);
+            return etudiantRepository.save(etudiant);
+        } else {
+            throw new IllegalArgumentException("Étudiant introuvable avec l'ID: " + etudiantId);
+        }
+    }
+
+
+    public int getNombreReservationsParCin(long cin) {
+        Etudiant etudiant = etudiantRepository.findEtudiantByCinEtudiant(cin);
+
+        if (etudiant == null) {
+            throw new IllegalArgumentException("Aucun étudiant trouvé avec le CIN: " + cin);
+        }
+
+        return etudiant.getReservations() != null ? etudiant.getReservations().size() : 0;
     }
 
 

@@ -7,6 +7,7 @@ import tn.esprit.tpfoyer.entity.Universite;
 import tn.esprit.tpfoyer.repository.UniversiteRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -19,8 +20,14 @@ public class UniversiteServiceImpl implements IUniversiteService {
     }
 
     public Universite retrieveUniversite(Long universiteId) {
-        return universiteRepository.findById(universiteId).get();
+        Optional<Universite> universiteOptional = universiteRepository.findById(universiteId);
+        if (universiteOptional.isPresent()) {
+            return universiteOptional.get();  // Accès sécurisé
+        } else {
+            throw new IllegalArgumentException("Université non trouvée avec l'ID: " + universiteId);
+        }
     }
+
 
     public Universite addUniversite(Universite u) {
         return universiteRepository.save(u);

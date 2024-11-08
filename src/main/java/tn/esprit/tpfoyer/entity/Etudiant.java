@@ -1,6 +1,7 @@
 package tn.esprit.tpfoyer.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -11,7 +12,6 @@ import java.util.Set;
 @Getter
 @Setter
 @AllArgsConstructor
-
 
 @NoArgsConstructor
 @ToString
@@ -26,9 +26,12 @@ public class Etudiant {
     String prenomEtudiant;
     long cinEtudiant;
     Date dateNaissance;
+    @Email
+    String email;
 
     @ManyToMany(mappedBy = "etudiants")
     Set<Reservation> reservations;
+
 
 }
 
