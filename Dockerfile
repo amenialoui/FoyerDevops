@@ -1,5 +1,6 @@
 # Use the OpenJDK 17 image as the base image
 FROM openjdk:17
+ENV SPRING_PROFILES_ACTIVE=dev
 
 # Expose the port on which your Java application listens
 EXPOSE 8089
