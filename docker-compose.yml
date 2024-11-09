@@ -15,7 +15,7 @@ services:
   tp-foyer:
     depends_on:
       - mysqldb
-    image: chiraz659/tp-foyer-Devops:5.0.0
+    image: chiraz659/tp-foyer-devops:5.0.0
     restart: on-failure
     ports:
       - 8082:8082
