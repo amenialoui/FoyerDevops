@@ -15,29 +15,5 @@ public class UniversiteServiceImpl implements IUniversiteService {
 
     UniversiteRepository universiteRepository;
 
-    public List<Universite> retrieveAllUniversites() {
-        return universiteRepository.findAll();
-    }
 
-    public Universite retrieveUniversite(Long universiteId) {
-        Optional<Universite> universiteOptional = universiteRepository.findById(universiteId);
-        if (universiteOptional.isPresent()) {
-            return universiteOptional.get();  // Accès sécurisé
-        } else {
-            throw new IllegalArgumentException("Université non trouvée avec l'ID: " + universiteId);
-        }
-    }
-
-
-    public Universite addUniversite(Universite u) {
-        return universiteRepository.save(u);
-    }
-
-    public Universite modifyUniversite(Universite universite) {
-        return universiteRepository.save(universite);
-    }
-
-    public void removeUniversite(Long universiteId) {
-        universiteRepository.deleteById(universiteId);
-    }
 }

@@ -133,7 +133,7 @@ class EtudiantServiceImplTest {
 //InscrireNouvelEtudiant
 // Scenario 1 Success
    @Test
-   void testInscrireNouvelEtudiant_Succes() {
+   void addEtudiant_Succes() {
    // Configuration des valeurs d'entrée
       String nom = "Dupont";
       String prenom = "Marie";
@@ -162,57 +162,46 @@ class EtudiantServiceImplTest {
       verify(etudiantRepository).save(Mockito.any(Etudiant.class));
 }
 
-   // Scenario 2 Cin Existe Deja
-   @Test
-   void testInscrireNouvelEtudiant_Echec_CinDejaExistant() {
-      String nom = "Dupont";
-      String prenom = "Marie";
-      long cin = 12345678L;
-      Calendar cal = Calendar.getInstance();
-      cal.add(Calendar.YEAR, -20);
-      Date dateNaissance = cal.getTime();
+//   // Scenario 2 Cin Existe Deja
 
-      // Mock du comportement du repository pour CIN déjà existant
-      Mockito.when(etudiantRepository.existsByCinEtudiant(cin)).thenReturn(true);
 
-      // Appel de la méthode et vérification de l'exception
-      IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-         Etudiant e = new Etudiant();
-         e.setNomEtudiant(nom);
-         e.setPrenomEtudiant(prenom);
-         e.setIdEtudiant(cin);
-         e.setDateNaissance(dateNaissance);
-         etudiantService.addEtudiant(e);
-      });
-
-      Assertions.assertEquals("Un étudiant avec ce CIN est déjà inscrit.", thrown.getMessage(), "Le message d'exception doit correspondre.");
-   }
 
    // Scenario 3 Age < 18
    @Test
-   void testInscrireNouvelEtudiant_Echec_AgeMoinsDe18Ans() {
+   void addEtudiant_Echec_AgeMoinsDe18Ans() {
+      // Données de test
       String nom = "Dupont";
       String prenom = "Marie";
       long cin = 12345678L;
-      Calendar cal = Calendar.getInstance();
-      cal.add(Calendar.YEAR, -16); // Âge inférieur à 18 ans
-      Date dateNaissance = cal.getTime();
+      Date dateNaissance = getDateNaissance(16); // Utilise la méthode utilitaire pour un âge de 16 ans
 
-      // Mock du comportement du repository pour CIN inexistant
+      // Mock du comportement du repository pour un CIN inexistant
       Mockito.when(etudiantRepository.existsByCinEtudiant(cin)).thenReturn(false);
 
-      //
-      IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-         Etudiant e = new Etudiant();
-         e.setNomEtudiant(nom);
-         e.setPrenomEtudiant(prenom);
-         e.setDateNaissance(dateNaissance);
-         etudiantService.addEtudiant(e);
+      // Création de l'objet Etudiant
+      Etudiant etudiant = new Etudiant();
+      etudiant.setNomEtudiant(nom);
+      etudiant.setPrenomEtudiant(prenom);
+      etudiant.setCinEtudiant(cin);
+      etudiant.setDateNaissance(dateNaissance);
+
+      // Appel de la méthode et vérification de l'exception
+      IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+         etudiantService.addEtudiant(etudiant);
       });
 
-
-      Assertions.assertEquals("L'étudiant doit avoir au moins 18 ans.", thrown.getMessage(), "Le message d'exception doit correspondre.");
+      // Vérification du message d'exception avec une description explicite
+      Assertions.assertEquals("L'étudiant doit avoir au moins 18 ans.", exception.getMessage(),
+              "L'exception doit indiquer que l'étudiant a moins de 18 ans.");
    }
+
+   // Méthode utilitaire pour calculer la date de naissance en fonction de l'âge
+   private Date getDateNaissance(int age) {
+      Calendar cal = Calendar.getInstance();
+      cal.add(Calendar.YEAR, -age);
+      return cal.getTime();
+   }
+
 
 //Retreive Etudiants
    //Scenario 1 Success

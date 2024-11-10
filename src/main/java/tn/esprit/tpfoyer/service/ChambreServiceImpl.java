@@ -17,37 +17,10 @@ public class ChambreServiceImpl implements IChambreService {
 
     ChambreRepository chambreRepository;
 
-    public List<Chambre> retrieveAllChambres() {
-        log.info("In Methodo retrieveAllChambres : ");
-        List<Chambre> listC = chambreRepository.findAll();
-        log.info("Out of retrieveAllChambres : ");
-
-        return listC;
-    }
-
-
-    public Chambre addChambre(Chambre c) {
-        return chambreRepository.save(c);
-    }
-
-    public Chambre modifyChambre(Chambre c) {
-        return chambreRepository.save(c);
-    }
-
-    public void removeChambre(Long chambreId) {
-        chambreRepository.deleteById(chambreId);
-    }
 
 
 
 
-
-
-
-    public List<Chambre> recupererChambresSelonTyp(TypeChambre tc)
-    {
-        return chambreRepository.findAllByTypeC(tc);
-    }
 
 
 
