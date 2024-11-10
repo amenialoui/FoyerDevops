@@ -9,11 +9,9 @@ public interface IEtudiantService {
 
     public List<Etudiant> retrieveAllEtudiants();
     public Etudiant retrieveEtudiant(Long etudiantId);
-    public Etudiant addEtudiant(Etudiant c);
     public void removeEtudiant(Long etudiantId);
-    public Etudiant modifyEtudiant(Etudiant etudiant);
+    public Etudiant modifyEtudiant(long cin, String nom, String prenom, String email);
     List<Etudiant> getEtudiantsAvecReservationValidePourAnneeDonnee(int annee);
-    String inscrireNouvelEtudiant(String nomEt, String prenomEt, long cin, Date dateNaissance);
-    Etudiant updateEmailEtudiant(Long etudiantId, String nouvelEmail);
     int getNombreReservationsParCin(long cin);
+    Etudiant addEtudiant(Etudiant c);
 }

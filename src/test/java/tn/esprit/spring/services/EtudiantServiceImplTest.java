@@ -9,7 +9,9 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import tn.esprit.tpfoyer.entity.Etudiant;
 import tn.esprit.tpfoyer.entity.Reservation;
+import tn.esprit.tpfoyer.entity.Universite;
 import tn.esprit.tpfoyer.repository.EtudiantRepository;
+import tn.esprit.tpfoyer.repository.UniversiteRepository;
 import tn.esprit.tpfoyer.service.EtudiantServiceImpl;
 
 import java.util.*;
@@ -21,8 +23,11 @@ class EtudiantServiceImplTest {
 
     @Mock
     private EtudiantRepository etudiantRepository;  // Mock de l'interface de dépôt
+   @Mock
+   private UniversiteRepository universiteRepository; // Mock de l'interface UniversiteRepository
 
-    @InjectMocks
+
+   @InjectMocks
     private EtudiantServiceImpl etudiantService;  // Service à tester
 
     private List<Etudiant> etudiants;  // Liste d'étudiants pour les tests
@@ -32,7 +37,8 @@ class EtudiantServiceImplTest {
         MockitoAnnotations.openMocks(this);  // Initialise les annotations Mockito
         etudiants = new ArrayList<>();  // Initialisation de la liste des étudiants
     }
-
+//GetEtudiantsAvecReservationValidePourAnneeDonnee
+   //Scenario 1 Success
     @Test
     void testGetEtudiantsAvecReservationValidePourAnneeDonnee() {
        // Configuration des données de test
@@ -69,7 +75,7 @@ class EtudiantServiceImplTest {
        assertEquals("Alice", result.get(0).getNomEtudiant(), "Le nom de l'étudiant doit être Alice.");
     }
 
-
+    //Scenario2  reservation vide
     @Test
     void testGetEtudiantsAvecReservationValidePourAnneeDonnee_SansReservationValide() {
        // Configuration des données de test sans réservations valides
@@ -89,65 +95,128 @@ class EtudiantServiceImplTest {
        assertTrue(result.isEmpty(), "La liste des étudiants doit être vide.");
     }
 
+   //Scenario3  reservation invalide
+   @Test
+   void testGetEtudiantsAvecReservationValidePourAnneeDonnee_ReservationInvalide() {
+      // Configuration des données de test avec une réservation invalide pour l'année 2023
+      Etudiant etudiant3 = new Etudiant();
+      etudiant3.setNomEtudiant("Charlie");
+
+      // Création d'une réservation invalide pour l'année 2023
+      Reservation reservation2 = new Reservation();
+      reservation2.setEstValide(false);
+
+      // Utilisation du Calendar pour définir une date en 2023
+      Calendar calendar = Calendar.getInstance();
+      calendar.set(Calendar.YEAR, 2023);
+      calendar.set(Calendar.MONTH, Calendar.JANUARY);
+      calendar.set(Calendar.DAY_OF_MONTH, 1);
+      reservation2.setAnneeUniversitaire(calendar.getTime()); // Date pour 2023
+
+      // Ajout de la réservation à l'étudiant
+      etudiant3.setReservations(new HashSet<>());
+      etudiant3.getReservations().add(reservation2);
+
+      // Liste d'étudiants incluant l'étudiant avec réservation invalide
+      List<Etudiant> etudiantList = new ArrayList<>();
+      etudiantList.add(etudiant3);
+
+      // Simulation du comportement du mock
+      when(etudiantRepository.findAll()).thenReturn(etudiantList);
+
+      // Appel de la méthode à tester
+      List<Etudiant> result = etudiantService.getEtudiantsAvecReservationValidePourAnneeDonnee(2023);
+
+      // Vérification que la liste est vide (étudiant avec réservation invalide)
+      assertTrue(result.isEmpty(), "La liste des étudiants doit être vide.");
+   }
+
+//InscrireNouvelEtudiant
+// Scenario 1 Success
+   @Test
+   void testInscrireNouvelEtudiant_Succes() {
+   // Configuration des valeurs d'entrée
+      String nom = "Dupont";
+      String prenom = "Marie";
+      long cin = 12345678L;
+      Calendar cal = Calendar.getInstance();
+      cal.add(Calendar.YEAR, -20); // 20 ans d'âge pour satisfaire la condition d'âge
+      Date dateNaissance = cal.getTime();
+
+      Etudiant e = new Etudiant();
+      e.setNomEtudiant(nom);
+      e.setPrenomEtudiant(prenom);
+      e.setIdEtudiant(cin);
+      e.setDateNaissance(dateNaissance);
+
+   // Mock du comportement du repository
+      Mockito.when(etudiantRepository.existsByCinEtudiant(cin)).thenReturn(false);
+      Mockito.when(etudiantRepository.save(Mockito.any(Etudiant.class))).thenReturn(e);  // Simuler la sauvegarde de l'étudiant
+
+   // Appel de la méthode
+      Etudiant result = etudiantService.addEtudiant(e);
+
+   // Vérifications
+      Assertions.assertNotNull(result, "L'étudiant retourné ne doit pas être nul.");
+      Assertions.assertEquals("Dupont", result.getNomEtudiant(), "Le nom de l'étudiant doit être Dupont.");
+      Assertions.assertEquals("Marie", result.getPrenomEtudiant(), "Le prénom de l'étudiant doit être Marie.");
+      verify(etudiantRepository).save(Mockito.any(Etudiant.class));
+}
+
+   // Scenario 2 Cin Existe Deja
+   @Test
+   void testInscrireNouvelEtudiant_Echec_CinDejaExistant() {
+      String nom = "Dupont";
+      String prenom = "Marie";
+      long cin = 12345678L;
+      Calendar cal = Calendar.getInstance();
+      cal.add(Calendar.YEAR, -20);
+      Date dateNaissance = cal.getTime();
+
+      // Mock du comportement du repository pour CIN déjà existant
+      Mockito.when(etudiantRepository.existsByCinEtudiant(cin)).thenReturn(true);
+
+      // Appel de la méthode et vérification de l'exception
+      IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+         Etudiant e = new Etudiant();
+         e.setNomEtudiant(nom);
+         e.setPrenomEtudiant(prenom);
+         e.setIdEtudiant(cin);
+         e.setDateNaissance(dateNaissance);
+         etudiantService.addEtudiant(e);
+      });
+
+      Assertions.assertEquals("Un étudiant avec ce CIN est déjà inscrit.", thrown.getMessage(), "Le message d'exception doit correspondre.");
+   }
+
+   // Scenario 3 Age < 18
+   @Test
+   void testInscrireNouvelEtudiant_Echec_AgeMoinsDe18Ans() {
+      String nom = "Dupont";
+      String prenom = "Marie";
+      long cin = 12345678L;
+      Calendar cal = Calendar.getInstance();
+      cal.add(Calendar.YEAR, -16); // Âge inférieur à 18 ans
+      Date dateNaissance = cal.getTime();
+
+      // Mock du comportement du repository pour CIN inexistant
+      Mockito.when(etudiantRepository.existsByCinEtudiant(cin)).thenReturn(false);
+
+      //
+      IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+         Etudiant e = new Etudiant();
+         e.setNomEtudiant(nom);
+         e.setPrenomEtudiant(prenom);
+         e.setDateNaissance(dateNaissance);
+         etudiantService.addEtudiant(e);
+      });
 
 
-    @Test
-    void testInscrireNouvelEtudiant_Succes() {
-       // Configuration des valeurs d'entrée
-       String nom = "Dupont";
-       String prenom = "Marie";
-       long cin = 12345678L;
-       Calendar cal = Calendar.getInstance();
-       cal.add(Calendar.YEAR, -20); // 20 ans d'âge pour satisfaire la condition d'âge
-       Date dateNaissance = cal.getTime();
+      Assertions.assertEquals("L'étudiant doit avoir au moins 18 ans.", thrown.getMessage(), "Le message d'exception doit correspondre.");
+   }
 
-       // Mock du comportement du repository
-       Mockito.when(etudiantRepository.existsByCinEtudiant(cin)).thenReturn(false);
-
-       // Appel de la méthode
-       String result = etudiantService.inscrireNouvelEtudiant(nom, prenom, cin, dateNaissance);
-
-       // Vérifications
-       Assertions.assertEquals("Inscription réussie pour l'étudiant Dupont Marie", result);
-       verify(etudiantRepository).save(Mockito.any(Etudiant.class));
-    }
-
-    @Test
-    void testInscrireNouvelEtudiant_Echec_CinDejaExistant() {
-       String nom = "Dupont";
-       String prenom = "Marie";
-       long cin = 12345678L;
-       Calendar cal = Calendar.getInstance();
-       cal.add(Calendar.YEAR, -20);
-       Date dateNaissance = cal.getTime();
-
-       // Mock du comportement du repository pour CIN déjà existant
-       Mockito.when(etudiantRepository.existsByCinEtudiant(cin)).thenReturn(true);
-
-       // Appel de la méthode et vérification de l'exception
-       Assertions.assertThrows(IllegalArgumentException.class, () -> {
-          etudiantService.inscrireNouvelEtudiant(nom, prenom, cin, dateNaissance);
-       });
-    }
-
-    @Test
-    void testInscrireNouvelEtudiant_Echec_AgeMoinsDe18Ans() {
-       String nom = "Dupont";
-       String prenom = "Marie";
-       long cin = 12345678L;
-       Calendar cal = Calendar.getInstance();
-       cal.add(Calendar.YEAR, -16); // Âge inférieur à 18 ans
-       Date dateNaissance = cal.getTime();
-
-       // Mock du comportement du repository pour CIN inexistant
-       Mockito.when(etudiantRepository.existsByCinEtudiant(cin)).thenReturn(false);
-
-       // Appel de la méthode et vérification de l'exception
-       Assertions.assertThrows(IllegalArgumentException.class, () -> {
-          etudiantService.inscrireNouvelEtudiant(nom, prenom, cin, dateNaissance);
-       });
-    }
-
+//Retreive Etudiants
+   //Scenario 1 Success
 
    @Test
    void testRetrieveEtudiant_Success() {
@@ -160,6 +229,7 @@ class EtudiantServiceImplTest {
       verify(etudiantRepository, times(1)).findById(1L);
    }
 
+   //Scenario 2 Etudiant Not Found
    @Test
    void testRetrieveEtudiant_NotFound() {
       when(etudiantRepository.findById(1L)).thenReturn(Optional.empty());
@@ -168,58 +238,91 @@ class EtudiantServiceImplTest {
       verify(etudiantRepository, times(1)).findById(1L);
    }
 
+// Remove Etudiant
+   //Scenario 1 Success
+@Test
+void testRemoveEtudiant_Exist() {
+   // Configuration des données de test
+   Etudiant etudiant = new Etudiant();
+   etudiant.setCinEtudiant(1L);
+   etudiant.setNomEtudiant("Alice");
+
+   // Simulation du comportement du mock
+   when(etudiantRepository.findById(1L)).thenReturn(Optional.of(etudiant));
+
+   // Appel de la méthode à tester
+   etudiantService.removeEtudiant(1L);
+
+   // Vérification que la méthode deleteById a été appelée
+   verify(etudiantRepository, times(1)).deleteById(1L);
+}
+
+   //Scenario 2 Etudiant not found
    @Test
-   void testRemoveEtudiant() {
-      etudiantService.removeEtudiant(1L);
-      verify(etudiantRepository, times(1)).deleteById(1L);
-   }
+   void testRemoveEtudiant_NonExistant() {
+      // Simulation du comportement du mock (l'étudiant n'existe pas)
+      when(etudiantRepository.findById(1L)).thenReturn(Optional.empty());
 
-   @Test
-   void testUpdateEmailEtudiant_Success() {
-      // Préparation des données
-      long etudiantId = 1L;
-      String nouvelEmail = "new.email@example.com";
-
-      Etudiant etudiant = new Etudiant();
-      etudiant.setIdEtudiant(etudiantId);
-      etudiant.setEmail("old.email@example.com");
-
-      // Définir le comportement du mock
-      when(etudiantRepository.findById(etudiantId)).thenReturn(Optional.of(etudiant));
-      when(etudiantRepository.save(any(Etudiant.class))).thenAnswer(i -> i.getArgument(0));
-
-      // Appel de la méthode à tester
-      Etudiant result = etudiantService.updateEmailEtudiant(etudiantId, nouvelEmail);
-
-      // Vérifications
-      assertNotNull(result);
-      assertEquals(nouvelEmail, result.getEmail());
-      verify(etudiantRepository, times(1)).findById(etudiantId);
-      verify(etudiantRepository, times(1)).save(etudiant);
-   }
-
-   @Test
-   void testUpdateEmailEtudiant_EtudiantNotFound() {
-      // Préparation des données
-      long etudiantId = 2L;
-      String nouvelEmail = "new.email@example.com";
-
-      // Définir le comportement du mock
-      when(etudiantRepository.findById(etudiantId)).thenReturn(Optional.empty());
-
-      // Appel de la méthode à tester et vérification de l'exception
-      Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-         etudiantService.updateEmailEtudiant(etudiantId, nouvelEmail);
+      // Vérification que l'exception IllegalArgumentException est lancée
+      IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+         etudiantService.removeEtudiant(1L);
       });
 
       // Vérification du message d'exception
-      assertEquals("Étudiant introuvable avec l'ID: " + etudiantId, exception.getMessage());
+      assertEquals("Aucun étudiant trouvé avec l'ID: 1", thrown.getMessage(), "Le message d'exception doit être correct.");
 
-      // Vérification des interactions avec le mock
-      verify(etudiantRepository, times(1)).findById(etudiantId);
-      verify(etudiantRepository, never()).save(any(Etudiant.class));
+      // Vérification que la méthode deleteById n'a pas été appelée
+      verify(etudiantRepository, times(0)).deleteById(1L);
    }
 
+
+   //Scenario 2 CIN Etudiant not found
+   @Test
+   void testRemoveEtudiant_InvalidId() {
+      // Test avec un ID invalide (null ou négatif)
+      Long invalidId = null;
+
+      // Appel de la méthode à tester et vérification qu'une exception est lancée
+      assertThrows(IllegalArgumentException.class, () -> etudiantService.removeEtudiant(invalidId));
+
+      // Vérification que la méthode deleteById n'a pas été appelée
+      verify(etudiantRepository, times(0)).deleteById(anyLong());
+   }
+
+//UpdateEtudiant
+   //Scenario1 Success
+   @Test
+   void testModifyEtudiant_Success() {
+      long cin = 123456789;
+      Etudiant existingEtudiant = new Etudiant();
+      existingEtudiant.setCinEtudiant(cin);
+      existingEtudiant.setNomEtudiant("Alice");
+
+      when(etudiantRepository.findEtudiantByCinEtudiant(cin)).thenReturn(existingEtudiant);
+      when(etudiantRepository.save(existingEtudiant)).thenReturn(existingEtudiant);
+
+      Etudiant result = etudiantService.modifyEtudiant(cin, "AliceUpdated", "NewPrenom", "alice@example.com");
+
+      assertEquals("AliceUpdated", result.getNomEtudiant());
+      assertEquals("NewPrenom", result.getPrenomEtudiant());
+      assertEquals("alice@example.com", result.getEmail());
+}
+      //scenario2
+      @Test
+      void testModifyEtudiant_NotFound() {
+         long cin = 123456789;
+
+         when(etudiantRepository.findEtudiantByCinEtudiant(cin)).thenReturn(null);
+
+         assertThrows(IllegalArgumentException.class, () ->
+                 etudiantService.modifyEtudiant(cin, "AliceUpdated", "NewPrenom", "alice@example.com")
+         );
+      }
+
+
+
+   //GetNombreReservationsParCin
+   //Scenario 1 Success
    @Test
    void testGetNombreReservationsParCin_multipleReservations() {
       // Scénario 1 : Étudiant avec plusieurs réservations
@@ -235,7 +338,7 @@ class EtudiantServiceImplTest {
       assertEquals(3, result);
       verify(etudiantRepository, times(1)).findEtudiantByCinEtudiant(cin);
    }
-
+   //Scenario 2 pas de reservation
    @Test
    void testGetNombreReservationsParCin_noReservations() {
       // Scénario 2 : Étudiant sans réservations
@@ -251,7 +354,7 @@ class EtudiantServiceImplTest {
       assertEquals(0, result);
       verify(etudiantRepository, times(1)).findEtudiantByCinEtudiant(cin);
    }
-
+   //Scenario 3 Etudiant Not Found
    @Test
    void testGetNombreReservationsParCin_etudiantNonTrouve() {
       // Scénario 3 : Étudiant non trouvé avec le CIN donné
@@ -266,6 +369,57 @@ class EtudiantServiceImplTest {
       assertEquals("Aucun étudiant trouvé avec le CIN: " + cin, exception.getMessage());
       verify(etudiantRepository, times(1)).findEtudiantByCinEtudiant(cin);
    }
+
+
+   // Scénario 1 : La liste des étudiants est vide et lève une exception
+   @Test
+   void testRetrieveAllEtudiants_Vide_LanceException() {
+      // Simulation du comportement du repository pour retourner une liste vide
+      when(etudiantRepository.findAll()).thenReturn(etudiants);
+
+      // Vérification que l'exception est bien levée
+      IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+         etudiantService.retrieveAllEtudiants();
+      });
+
+      assertEquals("Aucun étudiant trouvé.", thrown.getMessage(), "Le message d'exception doit être celui attendu.");
+   }
+
+   // Scénario 2 : La liste des étudiants contient des étudiants
+   @Test
+   void testRetrieveAllEtudiants_AvecEtudiants() {
+      // Configuration des données de test
+      Etudiant etudiant1 = new Etudiant();
+      etudiant1.setNomEtudiant("Alice");
+      etudiant1.setPrenomEtudiant("Dupont");
+      etudiant1.setIdEtudiant(12345678L);
+      etudiant1.setDateNaissance(new Date());  // Date de naissance générique pour le test
+
+      Etudiant etudiant2 = new Etudiant();
+      etudiant2.setNomEtudiant("Bob");
+      etudiant2.setPrenomEtudiant("Martin");
+      etudiant2.setIdEtudiant(87654321L);
+      etudiant2.setDateNaissance(new Date());
+
+      // Ajouter les étudiants à la liste
+      etudiants.add(etudiant1);
+      etudiants.add(etudiant2);
+
+      // Simulation du comportement du repository pour retourner la liste avec des étudiants
+      when(etudiantRepository.findAll()).thenReturn(etudiants);
+
+      // Appel de la méthode à tester
+      List<Etudiant> result = etudiantService.retrieveAllEtudiants();
+
+      // Vérification que la liste contient les bons étudiants
+      assertEquals(2, result.size(), "La liste des étudiants doit contenir 2 étudiants.");
+      assertEquals("Alice", result.get(0).getNomEtudiant(), "Le premier étudiant doit être Alice.");
+      assertEquals("Bob", result.get(1).getNomEtudiant(), "Le deuxième étudiant doit être Bob.");
+   }
+
+
+
+
 
 
 

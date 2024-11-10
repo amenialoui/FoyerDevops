@@ -24,8 +24,13 @@ public class EtudiantServiceImpl implements IEtudiantService {
 
 
     public List<Etudiant> retrieveAllEtudiants() {
-        return etudiantRepository.findAll();
+        List<Etudiant> etudiants = etudiantRepository.findAll();
+        if (etudiants.isEmpty()) {
+            throw new IllegalArgumentException("Aucun étudiant trouvé.");
+        }
+        return etudiants;
     }
+
 
     public Etudiant retrieveEtudiant(Long etudiantId) {
         Optional<Etudiant> optionalEtudiant = etudiantRepository.findById(etudiantId);
@@ -37,15 +42,20 @@ public class EtudiantServiceImpl implements IEtudiantService {
         }
     }
 
-    public Etudiant addEtudiant(Etudiant c) {
-        return etudiantRepository.save(c);
-    }
-    public Etudiant modifyEtudiant(Etudiant c) {
-        return etudiantRepository.save(c);
-    }
     public void removeEtudiant(Long etudiantId) {
-        etudiantRepository.deleteById(etudiantId);
+        if (etudiantId == null || etudiantId <= 0) {
+            throw new IllegalArgumentException("L'ID de l'étudiant doit être un nombre positif valide.");
+        }
+
+        // Vérification si l'étudiant existe dans la base de données
+        Optional<Etudiant> etudiant = etudiantRepository.findById(etudiantId);
+        if (etudiant.isPresent()) {
+            etudiantRepository.deleteById(etudiantId);  // Suppression de l'étudiant
+        } else {
+            throw new IllegalArgumentException("Aucun étudiant trouvé avec l'ID: " + etudiantId);
+        }
     }
+
 
 
     public List<Etudiant> getEtudiantsAvecReservationValidePourAnneeDonnee(int annee) {
@@ -71,9 +81,9 @@ public class EtudiantServiceImpl implements IEtudiantService {
 
 
 
-    public String inscrireNouvelEtudiant(String nomEt, String prenomEt, long cin, Date dateNaissance) {
+    public Etudiant addEtudiant(Etudiant c) {
         // Vérifier si l'étudiant est déjà inscrit par son CIN
-        if (etudiantRepository.existsByCinEtudiant(cin)) {
+        if (etudiantRepository.existsByCinEtudiant(c.getIdEtudiant())) {
             throw new IllegalArgumentException("Un étudiant avec ce CIN est déjà inscrit.");
         }
 
@@ -82,35 +92,13 @@ public class EtudiantServiceImpl implements IEtudiantService {
         calendar.add(Calendar.YEAR, -18);
         Date ageLimite = calendar.getTime();
 
-        if (dateNaissance.after(ageLimite)) {
+        if (c.getDateNaissance().after(ageLimite)) {
             throw new IllegalArgumentException("L'étudiant doit avoir au moins 18 ans.");
         }
 
-        // Créer l'objet étudiant et l'enregistrer
-        Etudiant etudiant = new Etudiant();
-        etudiant.setNomEtudiant(nomEt);
-        etudiant.setPrenomEtudiant(prenomEt);
-        etudiant.setCinEtudiant(cin);
-        etudiant.setDateNaissance(dateNaissance);
-
-        etudiantRepository.save(etudiant);
-
-        return "Inscription réussie pour l'étudiant " + nomEt + " " + prenomEt;
+        return etudiantRepository.save(c);
     }
 
-
-
-    public Etudiant updateEmailEtudiant(Long etudiantId, String nouvelEmail) {
-        Optional<Etudiant> optionalEtudiant = etudiantRepository.findById(etudiantId);
-
-        if (optionalEtudiant.isPresent()) {
-            Etudiant etudiant = optionalEtudiant.get();
-            etudiant.setEmail(nouvelEmail);
-            return etudiantRepository.save(etudiant);
-        } else {
-            throw new IllegalArgumentException("Étudiant introuvable avec l'ID: " + etudiantId);
-        }
-    }
 
 
     public int getNombreReservationsParCin(long cin) {
@@ -122,6 +110,38 @@ public class EtudiantServiceImpl implements IEtudiantService {
 
         return etudiant.getReservations() != null ? etudiant.getReservations().size() : 0;
     }
+
+
+    public Etudiant modifyEtudiant(long cin, String nom, String prenom, String email) {
+        // Rechercher l'étudiant dans la base de données par CIN
+        Etudiant existingEtudiant = etudiantRepository.findEtudiantByCinEtudiant(cin);
+
+        if (existingEtudiant == null) {
+            throw new IllegalArgumentException("Aucun étudiant trouvé avec le CIN: " + cin);
+        }
+
+        // Mettre à jour les champs spécifiques de l'étudiant si les valeurs ne sont pas nulles
+        if (nom != null) {
+            existingEtudiant.setNomEtudiant(nom);
+        }
+        if (prenom != null) {
+            existingEtudiant.setPrenomEtudiant(prenom);
+        }
+        if (email != null && email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+            existingEtudiant.setEmail(email);
+        }
+
+        // Sauvegarder les modifications dans la base de données
+        return etudiantRepository.save(existingEtudiant);
+    }
+
+
+
+
+
+
+
+
 
 
 

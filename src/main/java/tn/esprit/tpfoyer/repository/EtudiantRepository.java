@@ -14,4 +14,5 @@ public interface EtudiantRepository extends JpaRepository<Etudiant, Long> {
     Etudiant findEtudiantByCinEtudiant(long cin);
     List<Etudiant> findEtudiantsByReservations_AnneeUniversitaire(Date anneeUniversitaire);
     boolean existsByCinEtudiant(long cin);
+
 }

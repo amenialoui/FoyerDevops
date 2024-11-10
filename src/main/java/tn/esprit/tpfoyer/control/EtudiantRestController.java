@@ -22,8 +22,6 @@ public class EtudiantRestController {
         return etudiantService.retrieveAllEtudiants();
     }
 
-
-
     @GetMapping("/retrieve-etudiant/{etudiant-id}")
     public Etudiant retrieveEtudiant(@PathVariable("etudiant-id") Long chId) {
         return etudiantService.retrieveEtudiant(chId);
@@ -39,16 +37,13 @@ public class EtudiantRestController {
         etudiantService.removeEtudiant(chId);
     }
 
-    @PutMapping("/modify-etudiant")
-    public Etudiant modifyEtudiant(@RequestBody Etudiant c) {
-        return etudiantService.modifyEtudiant(c);
+    @PutMapping("/modify-etudiant/{etudiant-id}")
+    public Etudiant modifyEtudiant(@PathVariable("etudiant-id")Long cin,@RequestParam("etudiant-nom")String nom,
+                                   @RequestParam("nouvel-email")String prenom,
+                                   @RequestParam("etudiant-prenom")String email){
+        return etudiantService.modifyEtudiant(cin, nom, prenom, email);
     }
 
-    @PutMapping("/modify-etudiant/email")
-    public Etudiant modifyEtudiantEmail(@RequestParam("etudiant-id") Long etudiantId,
-                                        @RequestParam("nouvel-email") String nouvelEmail) {
-        return etudiantService.updateEmailEtudiant(etudiantId, nouvelEmail);
-    }
     @GetMapping("/nombre-reservations/{cin}")
     public int getNombreReservationsParCin(@PathVariable("cin") long cin) {
         return etudiantService.getNombreReservationsParCin(cin);
@@ -57,13 +52,7 @@ public class EtudiantRestController {
     public List<Etudiant> getEtudiantsAvecReservationValidePourAnneeDonnee(@PathVariable("annee") int annee) {
         return etudiantService.getEtudiantsAvecReservationValidePourAnneeDonnee(annee);
     }
-    @PostMapping("/inscrire-nouvel-etudiant")
-    public String inscrireNouvelEtudiant(@RequestParam("nomEt") String nomEt,
-                                         @RequestParam("prenomEt") String prenomEt,
-                                         @RequestParam("cin") long cin,
-                                         @RequestParam("dateNaissance") String dateNaissance) {
 
-        return etudiantService.inscrireNouvelEtudiant(nomEt, prenomEt, cin, Date.valueOf(dateNaissance));
-    }
+
 
 }
