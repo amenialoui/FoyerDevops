@@ -1,10 +1,10 @@
 package tn.esprit.tpfoyer.service;
 
 
-import jakarta.transaction.Transactional;
+
 import lombok.AllArgsConstructor;
 
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Service;
 import tn.esprit.tpfoyer.entity.Foyer;
 import tn.esprit.tpfoyer.repository.FoyerRepository;
@@ -13,8 +13,6 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-@Transactional
-@Slf4j
 public class FoyerServiceImpl implements IFoyerService {
 
     FoyerRepository foyerRepository;

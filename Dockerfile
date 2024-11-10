@@ -15,4 +15,4 @@ WORKDIR /app
 COPY target/tp-foyer-5.0.0.jar /app/tp-foyer-5.0.0.jar
 
 # Entry command to run the Java application
-CMD ["java", "-jar", "tp-foyer-5.0.0.jar"]
+CMD ["java", "-jar", "tp-foyer-5.0.0.jar", "--spring.profiles.active=dev"]
