@@ -22,10 +22,7 @@ public class ReservationRestController {
         return reservationService.retrieveAllReservations();
     }
 
-    @GetMapping("/retrieve-reservation/{reservation-id}")
-    public Reservation retrieveReservation(@PathVariable("reservation-id") String rId) {
-        return reservationService.retrieveReservation(rId);
-    }
+
 
 
 

@@ -29,11 +29,7 @@ public class BlocRestController {
     }
 
 
-    @GetMapping("/retrieve-bloc/{bloc-id}")
-    public Bloc retrieveBloc(@PathVariable("bloc-id") Long bId) {
-        return blocService.retrieveBloc(bId);
 
-    }
 
 
     @PostMapping("/add-bloc")

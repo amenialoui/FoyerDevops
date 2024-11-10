@@ -19,10 +19,6 @@ public class FoyerRestController {
         return foyerService.retrieveAllFoyers();
     }
 
-    @GetMapping("/retrieve-foyer/{foyer-id}")
-    public Foyer retrieveFoyer(@PathVariable("foyer-id") Long fId) {
-        return foyerService.retrieveFoyer(fId);
-    }
 
 
     @PostMapping("/add-foyer")

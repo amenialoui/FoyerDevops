@@ -23,12 +23,6 @@ public class ChambreRestController {
 
 
 
-    @GetMapping("/retrieve-chambre/{chambre-id}")
-    public Chambre retrieveChambre(@PathVariable("chambre-id") Long chId) {
-        return chambreService.retrieveChambre(chId);
-    }
-
-
     @PostMapping("/add-chambre")
     public Chambre addChambre(@RequestBody Chambre c) {
         return chambreService.addChambre(c);
