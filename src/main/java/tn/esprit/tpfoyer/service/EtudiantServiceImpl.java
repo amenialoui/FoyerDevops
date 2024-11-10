@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.tpfoyer.entity.Etudiant;
 import tn.esprit.tpfoyer.entity.Reservation;
-import tn.esprit.tpfoyer.entity.Universite;
 import tn.esprit.tpfoyer.repository.EtudiantRepository;
 import tn.esprit.tpfoyer.repository.ReservationRepository;
 import tn.esprit.tpfoyer.repository.UniversiteRepository;

@@ -48,11 +48,6 @@ public class BlocServiceImpl  implements IBlocService {
         return listBselonC;
     }
 
-    @Transactional
-    public Bloc retrieveBloc(Long blocId) {
-
-        return blocRepository.findById(blocId).get();
-    }
 
 
     public Bloc addBloc(Bloc c) {

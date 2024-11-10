@@ -19,9 +19,6 @@ public class ReservationServiceImpl implements IReservationService {
         return reservationRepository.findAll();
     }
 
-    public Reservation retrieveReservation(String reservationId) {
-        return reservationRepository.findById(reservationId).get();
-    }
 
     public Reservation addReservation(Reservation r) {
         return reservationRepository.save(r);
