@@ -15,8 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class UniversiteServiceImplTest {
@@ -179,5 +178,37 @@ class UniversiteServiceImplTest {
         assertEquals(null, result.getFoyer());
         verify(foyerRepository, times(0)).save(any());
     }
+    @Test
+    void testRetrieveUniversitiesByFoyer_Success() {
+        // Arrange
+        Foyer foyer = new Foyer(1L, "Foyer 1", 100, null, null);
+        Universite universite1 = new Universite(1L, "Université de Test 1", "Adresse Université 1", foyer);
+        Universite universite2 = new Universite(2L, "Université de Test 2", "Adresse Université 2", foyer);
+
+        // Foyer has two universities associated with it
+        List<Universite> universites = List.of(universite1, universite2);
+
+        // Mock the repository to return the list of universities
+        when(foyerRepository.findById(1L)).thenReturn(Optional.of(foyer));
+        when(universiteRepository.findAll()).thenReturn(universites);
+
+        // Act
+        List<Universite> result = universiteService.retrieveUniversitiesByFoyer(1L);
+
+        // Assert
+        assertEquals(2, result.size()); // Should return two universities
+        assertTrue(result.stream().anyMatch(u -> u.getNomUniversite().equals("Université de Test 1")));
+        assertTrue(result.stream().anyMatch(u -> u.getNomUniversite().equals("Université de Test 2")));
+    }
+
+    @Test
+    void testRetrieveUniversitiesByFoyer_FoyerNotFound() {
+        // Arrange
+        when(foyerRepository.findById(1L)).thenReturn(Optional.empty());
+
+        // Assert & Act
+        assertThrows(RuntimeException.class, () -> universiteService.retrieveUniversitiesByFoyer(1L));
+    }
+
 
 }
