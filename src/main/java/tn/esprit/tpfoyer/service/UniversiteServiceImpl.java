@@ -54,5 +54,22 @@ public class UniversiteServiceImpl implements IUniversiteService {
 
         return universite;
     }
+    public Universite desaffecterFoyerAUniversite(long idUniversite) {
+
+        Universite universite = universiteRepository.findById(idUniversite)
+                .orElseThrow(() -> new RuntimeException("Université non trouvée"));
+
+        Foyer foyer = universite.getFoyer();
+
+        if(foyer != null) {
+
+            foyer.setUniversite(null);
+            universite.setFoyer(null);
+
+            foyerRepository.save(foyer);
+        }
+
+        return universite;
+    }
 
 }

@@ -15,4 +15,5 @@ public interface IUniversiteService {
     // Here we will add later methods calling keywords and methods calling JPQL
     List<Universite> getAllUniversities();
     Universite affecterFoyerAUniversite(long idFoyer, String nomUniversite);
+    Universite desaffecterFoyerAUniversite(long idUniversite);
 }
