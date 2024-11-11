@@ -136,4 +136,48 @@ class UniversiteServiceImplTest {
         // Assert & Act
         assertThrows(RuntimeException.class, () -> universiteService.affecterFoyerAUniversite(1L, "Université Inconnue"));
     }
+    @Test
+    void testDesaffecterFoyerAUniversite_Success() {
+        // Arrange
+        Universite universite = new Universite(1L, "Université de Test", "Adresse Université", null);
+        Foyer foyer = new Foyer(1L, "Foyer de Test", 100, universite, null);
+        universite.setFoyer(foyer);
+
+        when(universiteRepository.findById(1L)).thenReturn(Optional.of(universite));
+        when(foyerRepository.save(foyer)).thenReturn(foyer);
+
+        // Act
+        Universite result = universiteService.desaffecterFoyerAUniversite(1L);
+
+        // Assert
+        assertEquals("Université de Test", result.getNomUniversite());
+        assertEquals(null, result.getFoyer());
+        verify(foyerRepository, times(1)).save(foyer);
+    }
+
+    @Test
+    void testDesaffecterFoyerAUniversite_UniversiteNotFound() {
+        // Arrange
+        when(universiteRepository.findById(1L)).thenReturn(Optional.empty());
+
+        // Assert & Act
+        assertThrows(RuntimeException.class, () -> universiteService.desaffecterFoyerAUniversite(1L));
+    }
+
+    @Test
+    void testDesaffecterFoyerAUniversite_NoFoyerAssigned() {
+        // Arrange
+        Universite universite = new Universite(1L, "Université de Test", "Adresse Université", null);
+
+        when(universiteRepository.findById(1L)).thenReturn(Optional.of(universite));
+
+        // Act
+        Universite result = universiteService.desaffecterFoyerAUniversite(1L);
+
+        // Assert
+        assertEquals("Université de Test", result.getNomUniversite());
+        assertEquals(null, result.getFoyer());
+        verify(foyerRepository, times(0)).save(any());
+    }
+
 }
