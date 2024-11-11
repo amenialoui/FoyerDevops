@@ -59,5 +59,9 @@ public class UniversiteRestController {
     public Universite desaffecterFoyerAUniversite(@RequestParam long idUniversite) {
         return universiteService.desaffecterFoyerAUniversite(idUniversite);
     }
+    @GetMapping("/retrieve-universites-by-foyer/{foyer-id}")
+    public List<Universite> retrieveUniversitesByFoyer(@PathVariable("foyer-id") long foyerId) {
+        return universiteService.retrieveUniversitiesByFoyer(foyerId);
+    }
 
 }

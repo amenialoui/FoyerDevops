@@ -9,6 +9,7 @@ import tn.esprit.tpfoyer.repository.FoyerRepository;
 import tn.esprit.tpfoyer.repository.UniversiteRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -71,5 +72,16 @@ public class UniversiteServiceImpl implements IUniversiteService {
 
         return universite;
     }
+    public List<Universite> retrieveUniversitiesByFoyer(long idFoyer) {
+        // Vérifier si le foyer existe
+        Foyer foyer = foyerRepository.findById(idFoyer)
+                .orElseThrow(() -> new RuntimeException("Foyer non trouvé"));
+
+        // Rechercher toutes les universités associées à ce foyer
+        return universiteRepository.findAll().stream()
+                .filter(universite -> universite.getFoyer() != null && universite.getFoyer().getIdFoyer().equals(idFoyer))
+                .collect(Collectors.toList());
+    }
+
 
 }

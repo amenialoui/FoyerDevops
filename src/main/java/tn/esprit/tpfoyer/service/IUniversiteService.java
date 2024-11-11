@@ -16,4 +16,6 @@ public interface IUniversiteService {
     List<Universite> getAllUniversities();
     Universite affecterFoyerAUniversite(long idFoyer, String nomUniversite);
     Universite desaffecterFoyerAUniversite(long idUniversite);
+    List<Universite> retrieveUniversitiesByFoyer(long idFoyer);
+
 }
