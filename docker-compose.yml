@@ -10,13 +10,15 @@ services:
     networks:
       - mynetwork
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root  # You can change this to a more secure password
       MYSQL_DATABASE: devops
     ports:
       - "3306:3306"
     volumes:
       - mysql-data:/var/lib/mysql
+    restart: always
 
+  # Spring Boot application service
   app:
     build:
       context: .
@@ -29,11 +31,12 @@ services:
       - mysql
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/devops?createDatabaseIfNotExist=true
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD:
+      SPRING_DATASOURCE_USERNAME: root  # Matches the MySQL root username
+      SPRING_DATASOURCE_PASSWORD: root  # Make sure this password matches MYSQL_ROOT_PASSWORD
       MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: '*'
       MANAGEMENT_ENDPOINT_PROMETHEUS_ENABLED: 'true'
       MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED: 'true'
+    restart: always
 
 volumes:
   mysql-data:
