@@ -1,4 +1,5 @@
 version: '3.8'
+
 networks:
   mynetwork:
     driver: bridge
@@ -10,33 +11,33 @@ services:
     networks:
       - mynetwork
     environment:
-      MYSQL_ROOT_PASSWORD: root  # You can change this to a more secure password
+      MYSQL_ROOT_PASSWORD: root  # Change this to a more secure password
       MYSQL_DATABASE: devops
-    ports:
-      - "3306:3306"
     volumes:
-      - mysql-data:/var/lib/mysql
+      - mysql-data:/var/lib/mysql  # Persist data
     restart: always
+    ports:
+      - "3306:3306"  # Exposes MySQL port for external access, optional if you only need internal access
 
   # Spring Boot application service
   app:
     build:
-      context: .
+      context: .  # Assumes the Dockerfile is in the current directory
       dockerfile: Dockerfile
     ports:
-      - "8089:8089"
+      - "8089:8089"  # Exposes Spring Boot app port for external access
     networks:
       - mynetwork
     depends_on:
-      - mysql
+      - mysql  # Ensures MySQL starts before the Spring Boot app
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/devops?createDatabaseIfNotExist=true
-      SPRING_DATASOURCE_USERNAME: root  # Matches the MySQL root username
-      SPRING_DATASOURCE_PASSWORD: root  # Make sure this password matches MYSQL_ROOT_PASSWORD
-      MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: '*'
+      SPRING_DATASOURCE_USERNAME: root  # MySQL root username
+      SPRING_DATASOURCE_PASSWORD: root  # Ensure this password matches MYSQL_ROOT_PASSWORD
+      MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: '*'  # Exposes all management endpoints, including prometheus
       MANAGEMENT_ENDPOINT_PROMETHEUS_ENABLED: 'true'
       MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED: 'true'
     restart: always
 
 volumes:
-  mysql-data:
+  mysql-data:  # Volume to persist MySQL data
