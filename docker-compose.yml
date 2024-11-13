@@ -39,19 +39,6 @@ services:
       MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED: 'true'
     restart: always
 
-  prometheus:
-    image: prom/prometheus:latest
-    container_name: prometheus
-    volumes:
-      - ./prometheus:/etc/prometheus  # Mount a directory instead of a file
-    ports:
-      - "9090:9090"
-    networks:
-      - mynetwork
-    restart: always
-    depends_on:
-      - app
-
 
 
 volumes:
