@@ -18,7 +18,7 @@ services:
     image: ameni023/tp-foyer:5.0.0
     restart: on-failure
     ports:
-      - 8082:8082
+      - 8082:8089
     environment:
       SPRING_APPLICATION_JSON: '{
         "spring.datasource.url": "jdbc:mysql://mysqldb:3306/FoyerDevops?createDatabaseIfNotExist=true",
